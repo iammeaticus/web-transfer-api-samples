@@ -21,6 +21,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
+
+/*Dependencies:
+  This sample depends on the jsonwebtoken module
+  The jsonwebtoken module can be installed using 'npm install jsonwebtoken'
+*/
 var jwt = require('jsonwebtoken');
 
 //generateToken generates a signed JWT using API Key, Config ID, Secret Key, and Audience.
@@ -30,8 +35,7 @@ var secret = ""; //get this from https://manage.signiant.com
 var audience = "signiant_flight_console";
 
 /**
-  * returns a signed JWT token
-  * @return null
+  * @return (String) A signed JWT  
 */
 var generateToken = function ( apiKey, configId, secret, audience) {
     var claims = buildClaims(apiKey, configId, audience);
@@ -39,8 +43,14 @@ var generateToken = function ( apiKey, configId, secret, audience) {
 }
 
 /**
-  * Builds the claims required by generateToken
-  * @return (String) claims
+   Constructs the claims section of a JWT 
+   This section must be include the following claims:
+   {
+       iss: 'API Key'
+       cfg: 'Config Id'
+       aud: 'signiant_flight_console'	
+   }
+   @return (Object) claims
 */
 var buildClaims = function(apiKey, configId, audience)
 {
@@ -52,8 +62,8 @@ var buildClaims = function(apiKey, configId, audience)
 }
 
 /**
-  * Builds the claims required by generateToken
-  * @return (Hash) algorithm, expiresInMinutes
+  * Constructs a JWT options section which contains the signing algorithm to use and an expiration time 
+  * @return (Object) algorithm, expiresInMinutes
 */
 var getOptions = function()
 {
