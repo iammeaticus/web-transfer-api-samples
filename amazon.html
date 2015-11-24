@@ -140,7 +140,7 @@ THE SOFTWARE.
             transferObject.subscribeForTransferProgress(transferProgressCallback);
 			//setup the storage config options to upload to the right S3 bucket
             if(configId){ 
-            transferObject.setStorageConfig('{"configId":"'+configId+'", "signature":"'+globalSignature+'"}');
+              transferObject.setStorageConfig('{"configId":"'+configId+'", "signature":"'+globalSignature+'"}');
             } else {
               transferObject.setStorageConfig('{"access-key":"'+amazonS3Key+'", "secret-key":"'+amazonS3Secret+'", "bucket":"'+amazonS3Bucket+'"}');
             } 
@@ -265,7 +265,8 @@ THE SOFTWARE.
           //set the download server
           download.setServer(defaultServer);
           //set the storage configuration
-          download.setStorageConfig('{"access-key":"'+amazonS3Key+'", "secret-key":"'+amazonS3Secret+'", "bucket":"'+amazonS3Bucket+'"}');
+          download.setStorageConfig('{"configId":"'+configId+'", "signature":"'+globalSignature+'"}');
+          download.setProperty('com.signiant.interactivetransfer.engine.api_key', apiKey);
           //set the probeLB (probe load balancer) to true (always true for Flight).
           download.setProbeLB(true);
           //set the files to download to the file that is passed
