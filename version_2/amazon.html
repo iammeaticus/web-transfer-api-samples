@@ -265,6 +265,8 @@ THE SOFTWARE.
           download.setServer(defaultServer);
           //set the storage configuration
           download.setStorageConfig('{"access-key":"'+amazonS3Key+'", "secret-key":"'+amazonS3Secret+'", "bucket":"'+amazonS3Bucket+'"}');
+          //set the api key
+          download.setProperty('com.signiant.interactivetransfer.engine.api_key', apiKey);
           //set the probeLB (probe load balancer) to true (always true for Flight).
           download.setProbeLB(true);
           //set the files to download to the file that is passed
