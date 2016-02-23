@@ -32,52 +32,45 @@ THE SOFTWARE.
 <html><head>
     <script type="text/javascript">
  	    /* SETUP 
-        ** TRIALS: Get your API key from http://info.signiant.com/flight-Free-Trial_1.html and enter it on line 43. 
+        ** TRIALS: Get your API key from http://info.signiant.com/flight-Free-Trial_1.html. 
         ** CUSTOMERS: Get your API key from https://manage.signiant.com (click on Keys).
         ** MICROSOFT AZURE SUPPORT
         ** Signiant Flight supports Microsoft Azure as well. 
         ** Check out azure.html for an example using Microsoft Azure.
         */
         var apiKey = ""; //See above on how to get an API key.
-        var defaultServer = 'global-am.cloud.signiant.com'; //Amazon: global-am.cloud.signiant.com, Azure: global-az.cloud.signiant.com
+        var defaultServer = 'us-east-1-am.cloud.signiant.com'; //Amazon: global-am.cloud.signiant.com, Azure: global-az.cloud.signiant.com
       
         /* TRIALS 
-        ** Trial users must use Amazon keys and secrets.
-        ** You can use our test credentials or you can replace them with your own S3 credentials. 
-        ** If you're using your own S3 credentials we recommend you limit the permissions using the policy at https://flight.support.signiant.com/customer/portal/articles/1779001-setup-amazon-web-services-for-signiant-flight
+        ** Trial users have to use keys and secrets. Customers can use temporary credentials using "configId" below. 
+        ** You can use our test credentials or you can replace it with your own S3 credentials if you like. 
         */
-        
         /* AMAZON SETTINGS
-        ** The following Amazon settings are for showing the files in Amazon. 
+        ** The following Amazon settings are set for Flight trials as well as for showing the files in Amazon (on the right hand column of this demo page). 
         ** If the files in your bucket aren't showing up, then add the following CORS policy to it as described at http://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html 
         <CORSConfiguration><CORSRule><AllowedOrigin>*</AllowedOrigin><AllowedMethod>PUT</AllowedMethod><AllowedMethod>POST</AllowedMethod><AllowedMethod>GET</AllowedMethod><MaxAgeSeconds>3000</MaxAgeSeconds><AllowedHeader>*</AllowedHeader></CORSRule></CORSConfiguration>
         **
         */
-        var amazonS3Key = ""; //AWS Key
-        var amazonS3Secret = ""; //AWS Secret
-        var amazonS3Bucket = ""; //AWS Bucket to transfer to
+        var amazonS3Key = ""; //AWS Key for transfers
+        var amazonS3Secret = ""; //AWS Secret for transfers
+        var amazonS3Bucket = ""; //Bucket for transfers
         var amazonS3Region = "us-east-1"; //set the region of the above bucket. Required only for listing files.
         
-        /* FOR CUSTOMERS
-        ** Customers can use Amazon keys and secrets, or enable qFlight to use temporary credentials using Amazon roles.
-        ** To use keys and secrets, enter them above.
-        **
-        ** To have Flight use Amazon temporary credentials, link your cloud storage account at https://manage.signiant.com (Click on "Storage"). 
+        /* CUSTOMERS
+        ** Link your cloud storage account at https://manage.signiant.com (Click on "Storage") to use 
+        ** temporary access credentials, instead of having to enter AWS/Azure keys, secrets, buckets etc... in this file. 
         */
-        var configId = ""; //GET THIS FROM https://manage.signiant.com (click on Storage).
-        
-        /* When you generate an API key from https://manage.signiant.com you generate a "secret" as well. You need to use that secret to generate a signature on your server. */
-        var signatureEndPoint = ""; //url that we go to retrieve a signature. 
-        var globalSignature = null; //secrets are only good for 5 minutes. You will need to refres the generation every 5 minutes.
-      
+        var configId = false; //GET THIS FROM https://manage.signiant.com (click on Storage).
+        /* When you generate an API key from https://manage.signiant.com you generate a "secret" as well. You need to use that secret to generate a "signature" on your server. */
+        var globalSignature = ""; //
+                
         /* FILE DESTINATION 
         ** Change the folder path that the file will go into.
         */
         var destinationFolderPath = ''; //(optional) String: Path you want the file to go into (ie. folder1/folder2/)
-    
     </script>
-    <script src="https://updates.signiant.com/javascript-api/2.2.0/transferapi.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>  
+    <script src='https://updates.signiant.com/javascript-api/2.4.0/transferapi.min.js' type='text/javascript'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js" type="text/javascript"></script>    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/foggy/1.1.1/jquery.foggy.min.js" type="text/javascript"></script>
     <script src="https://cdn.imnjb.me/libs/humanize/0.0.9/humanize.min.js" type="text/javascript"></script>
@@ -85,34 +78,48 @@ THE SOFTWARE.
     <title>Signiant Flight Demo</title>
 
 	<script>
-	 	//the global transfer object that is used for transfers
+	 	// Avoid `console` errors in browsers that lack a console.
+        (function() {
+            var method;
+            var noop = function () {};
+            var methods = [
+                'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+                'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+                'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+                'timeline', 'timelineEnd', 'timeStamp', 'trace', 'warn'
+            ];
+            var length = methods.length;
+            var console = (window.console = window.console || {});
+
+            while (length--) {
+                method = methods[length];
+
+                // Only stub undefined methods.
+                if (!console[method]) {
+                    console[method] = noop;
+                }
+            }
+        }());
+        
+        //the global transfer object that is used for uploading
         var transferObject = null;
         
         /**
-         * This function makes an AJAX call to get a signature. 
-         * @return null
-        */
-        function getSignature() {
-          $.ajax({
-            url: signatureEndPoint
-          }).done(function( data ) {
-            data = jQuery.parseJSON(data);
-            globalSignature = data.token;
-          });
-        }
-        
-		/**
          * Check for the plugin. This is the first method to be called on document load (see last function below).
          * On success, call initializeUploadObject. If the plugin doesn't load, call pluginNotLoaded
          * 
          * @return null
         */
-        function checkForPlugin() {
-			getSignature();
-            //regenerate the signature every 4 minutes (they expire every 5 minutes so this should be good)
-            setInterval(getSignature, (1000*60*4));
-			detectPlugin({success:initializeUploadObject, error:pluginNotLoaded});
-		}
+        function checkForSigniant() {
+		  console.log("Check for Signiant App");
+		  Signiant.Mst.configure({
+        		networkConnectivityErrorCallback: networkConnectivityErrorCallback,
+        		appCommunicationErrorCallback: appCommunicationErrorCallback,
+        		networkConnectivityRestoredCallback: networkConnectivityRestoredCallback
+        	});
+          
+          detectPlugin({success:initializeUploadObject, error:pluginNotLoaded});
+        }
 
 		/**
          * The plugin couldn't be loaded - display an error message
@@ -139,22 +146,94 @@ THE SOFTWARE.
             transferObject.subscribeForTransferProgress(transferProgressCallback);
 			//setup the storage config options to upload to the right S3 bucket
             if(configId){ 
-            transferObject.setStorageConfig('{"configId":"'+configId+'", "signature":"'+globalSignature+'"}');
+              transferObject.setStorageConfig('{"configId":"'+configId+'", "signature":"'+globalSignature+'"}');
             } else {
               transferObject.setStorageConfig('{"access-key":"'+amazonS3Key+'", "secret-key":"'+amazonS3Secret+'", "bucket":"'+amazonS3Bucket+'"}');
             } 
             //send the server the API key
-            transferObject.setProperty('com.signiant.interactivetransfer.engine.api_key', apiKey); //required
+            transferObject.setApiKey(apiKey); //required
             transferObject.setProbeLB(true); //always set to true for Flight
         }
         
-        /**
+        // This will be called when the Transfer API detects network loss (will not throw if only changing networks)
+		// The Signiant App should recover and continue transfer if network timeout is < 1 minute
+		function networkConnectivityErrorCallback () {
+			console.log("Network Connectivity Loss Detected");
+			alert("Network Loss Detected, Waiting for Restore");
+		}
+
+		// This will be called when the Transfer API detects network connectivity is restored
+		// The Signiant App should recover and continue transfer
+		function networkConnectivityRestoredCallback () {
+			console.log("Network Connectivity Restored");
+			alert("Network Connectivity Restored");
+			if ( transferObject === 'undefined' ){
+				alert("transfer object undefined")
+			} else {
+				if ( transferObject.currentTransferState == Signiant.Mst.transferState.TRANSFERRING ){
+					alert("state == TRANSFERRING")
+				} else {
+					alert("state != TRANSFERRING")
+				}
+			}
+		}
+
+		// The Signiant App would have cancelled any running transfers if this callback is fired
+		function appCommunicationErrorCallback () {
+			console.log("Connection to Signiant App Lost");
+			alert("Your connection has been lost. Press launch application on the next dialog.")
+            reInitializeApp();
+		}
+
+		/* Called in response to success initialize on Signiant.mst.initialize */
+        function reIntializeSuccess() {
+			console.log("Connection to Signiant App Re-established");
+			alert("Connection to Signiant App Re-established");
+			if ( transferObject !== 'undefined' ){
+				console.log("Checking to restart transfer");
+				// check and see if transfer was running, if so restart transfer
+				// we could send a cancel as well at this point to ensure the previous transfer was cancelled
+				// but Signiant App will cancel transfers when communication with Browser lost for significant period of time
+				if ( transferObject.currentTransferState == Signiant.Mst.transferState.TRANSFERRING ){
+					console.log("Restarting Transfer");
+					alert("Restarting Transfer in Progress");
+					// Set back to IDLE, pending this being tracked in Transfer API
+					transferObject.currentTransferState = Signiant.Mst.transferState.IDLE;
+					transferObject.startUpload();
+				}
+			}
+		}
+		
+        /* Called in response to failure to initialize on Signiant.mst.initialize */
+		function reInitializeFailure() {
+			console.log("Re-Initialize Signiant App Failed, retrying");
+			alert("Signiant App Connection Lost, Retrying...");
+			reInitializeApp();
+		}		
+
+		/* Timeout is time to wait for app to respond to new session request. We suggest 20 seconds, but you may want to lower this. If the timer completes and no message is received, reInitializeFailure will fire  */
+		function reInitializeApp() {
+			console.log("Attempt Re Initialize Connection to Signiant");
+			var options = { "timeout" : 20000 };
+			Signiant.Mst.initialize(reIntializeSuccess, reInitializeFailure, options);
+		}
+
+		function appErrorFailure(){
+			alert("Transfer API Failed to load. Transfer Services will not be available.");
+		}
+
+		
+      /**
          * Open the file selection dialog, and call callbackUpload when it closes.
          *
          * @return null
         */
         function chooseFiles() {
+          try {
             transferObject.chooseUploadFiles( callbackUpload );
+          } catch (exception) {
+            alert("Unable to open the file selector: " + exception);
+          }
         }
         
 		/**
@@ -166,7 +245,6 @@ THE SOFTWARE.
             if(configId) { 
               transferObject.setStorageConfig('{"configId":"'+configId+'", "signature":"'+globalSignature+'"}');
             }
-          
             var filesArray = new Array();
             for (var i = 0; i < selectedFiles.length; i++) {
                 filesArray.push(selectedFiles[i].path);
@@ -180,10 +258,11 @@ THE SOFTWARE.
             //transferObject.setTargetFileName(destinationFolderPath);
             //start the upload
             transferObject.startUpload();
+            properties = transferObject.getTransferProperties();
             //modify the UI
             $("#contentUploadText").html("Starting upload...");
             $("#contentListing").fadeTo(1000, 0.3);
-            $("#contentUpload").on('click', cancelUpload);
+            $("#contentUpload").on('click', cancelTransfer);
         }
         
         /**
@@ -192,8 +271,9 @@ THE SOFTWARE.
          * @return null
         */
         function transferProgressCallback(transferObject, numBytesSent, numBytesTotal, estimatedTimeRemaining) {
+            
             var percent = Math.round((numBytesSent/numBytesTotal)*100);
-            $("#contentUploadText").html(percent+"% uploaded<p>Completes in about "+moment.duration(estimatedTimeRemaining*1000).humanize()+"</p>");
+            $("#contentUploadText").html(percent+"% completed.<p>Completes in about "+moment.duration(estimatedTimeRemaining*1000).humanize()+"</p>");
         }
 
         /**
@@ -202,7 +282,7 @@ THE SOFTWARE.
          * @return null
         */
         function transferErrors (transferObject, eventCode, eventMsg, propertyName){
-			//alert("Sample Upload Transfer Error " + eventCode + ", " + eventMsg);
+			console.log("Sample Upload Transfer Error " + eventCode + ", " + eventMsg);
 		}
 
 		/**
@@ -221,9 +301,6 @@ THE SOFTWARE.
               case "TRANSFER_CANCEL_EVENT":
               case "TRANSFER_COMPLETED":
                 transferObject.clearAllFiles();
-                $("#contentListing").fadeTo(1000, 1);
-                $("#contentUploadText").html("Upload something...");
-                $("#uploadFileChooser").attr("class","icon-add");
                 setTimeout(function() {updateBucket()},900); 
               break;
 
@@ -242,16 +319,18 @@ THE SOFTWARE.
 		}
 
 		/**
-         * Gracefully cancel the upload
+         * Gracefully cancel the upload or download
          *
          * @return null
         */
-        function cancelUpload() {
+        function cancelTransfer() {
 			$("#contentUploadText").html("Cancelling upload<p>This will take a few seconds.");
-            try {
+            console.log("Cancel Upload files");
+			try {
 				transferObject.cancel();
             } catch (exception) {
-				alert("Exception in Cancel Upload Files"+exception);
+				console.log("Exception in Cancel Upload Files");
+				console.log(exception);
 			}
 		}
         
@@ -266,14 +345,18 @@ THE SOFTWARE.
           var download = new Signiant.Mst.Download();
           //set the download server
           download.setServer(defaultServer);
+          //set the apikey for downloading
+          download.setApiKey(apiKey); //required
           //set the storage configuration
           download.setStorageConfig('{"access-key":"'+amazonS3Key+'", "secret-key":"'+amazonS3Secret+'", "bucket":"'+amazonS3Bucket+'"}');
-          //set the api key
-          download.setProperty('com.signiant.interactivetransfer.engine.api_key', apiKey);
           //set the probeLB (probe load balancer) to true (always true for Flight).
           download.setProbeLB(true);
           //set the files to download to the file that is passed
           download.setFilesToDownload(new Array(fileName));
+          download.subscribeForTransferErrors(transferErrors);
+		  download.subscribeForBasicEvents(transferEvents);
+          download.subscribeForTransferProgress(transferProgressCallback);
+			
           //open the file picker so the user selects where to save the file.
           download.chooseDownloadFolder( function(message, folder) {
               //set the download folder to what they set
@@ -309,7 +392,6 @@ THE SOFTWARE.
                 $("#contentUpload").click(chooseFiles);
                 var bucket = new AWS.S3({params: {Bucket: amazonS3Bucket}});
                 bucket.listObjects({Delimiter: "/", Prefix: thisPrefix}, function (err, data) {
-                    $("#refreshIcon").removeClass("fa-spin");
                     if (err) {
                         document.getElementById('objects').innerHTML =
                         'Could not load objects from Amazon S3. Check your credentials and <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">ensure CORS is setup properly</a>. Error was <i>'+err+'</i>';
@@ -335,6 +417,13 @@ THE SOFTWARE.
                                 
                             }
                             $("#objects").append(textToAppend);
+                            
+                            $("#objects").fadeIn(500).promise().then(function() {
+                                $("#refreshIcon").removeClass("fa-spin");
+                                $("#contentListing").fadeTo(1000, 1);
+                                $("#contentUploadText").html("Upload something...");
+                                $("#uploadFileChooser").attr("class","icon-add");
+                            });   
                         });
                     }
                 });
@@ -349,7 +438,7 @@ THE SOFTWARE.
         
         $(document).ready(function(){
 			//does the Signiant plugin exist?
-            checkForPlugin(); 
+            checkForSigniant(); 
             //set the S3 region (required for S3)
             AWS.config.region = amazonS3Region; 
 		    AWS.config.update({accessKeyId: amazonS3Key, secretAccessKey: amazonS3Secret});
