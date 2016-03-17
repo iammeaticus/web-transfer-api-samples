@@ -105,6 +105,16 @@ THE SOFTWARE.
         var transferObject = null;
         
         /**
+         * Callback for failure call of Signiant.Mst.initialize()
+         * 
+         * @return null
+        */
+        var failureCallback = function () {
+            var installWidget = new Signiant.Mst.SigAppInstallWidget('mainContent');
+            installWidget.showInstallerWindow(); 
+        }
+
+		/**
          * Check for the plugin. This is the first method to be called on document load (see last function below).
          * On success, call initializeUploadObject. If the plugin doesn't load, call pluginNotLoaded
          * 
@@ -118,19 +128,10 @@ THE SOFTWARE.
         		networkConnectivityRestoredCallback: networkConnectivityRestoredCallback
         	});
           
-          detectPlugin({success:initializeUploadObject, error:pluginNotLoaded});
+            Signiant.Mst.initialize(initializeUploadObject, failureCallback)	
         }
-
-		/**
-         * The plugin couldn't be loaded - display an error message
-         *
-         * @return null
-        */
-        function pluginNotLoaded(){
-			alert("Signiant Transfer API Plugin Failed to load. This demo will not work.");
-		}
-
-		/**
+      
+        /**
          * Setup the upload object - the global var transferObject
          *
          * @return null
