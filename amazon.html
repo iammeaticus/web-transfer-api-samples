@@ -137,7 +137,10 @@ THE SOFTWARE.
          * @return null
         */
         function initializeUploadObject(){
-			//create a new upload Object
+			//update the bucket display to show the items currently in the bucket.  
+            updateBucket(); 
+          
+            //create a new upload Object
             transferObject = new Signiant.Mst.Upload();
             //set the default server
 			transferObject.setServer(defaultServer);
@@ -438,13 +441,12 @@ THE SOFTWARE.
         */
         
         $(document).ready(function(){
-			//does the Signiant plugin exist?
-            checkForSigniant(); 
-            //set the S3 region (required for S3)
-            AWS.config.region = amazonS3Region; 
-		    AWS.config.update({accessKeyId: amazonS3Key, secretAccessKey: amazonS3Secret});
-            //update the bucket display to show the items currently in the bucket.  
-            updateBucket(); 
+		  //does the Signiant App exist?
+          checkForSigniant(); 
+          //set the S3 region (required for S3)
+          AWS.config.region = amazonS3Region; 
+		  AWS.config.update({accessKeyId: amazonS3Key, secretAccessKey: amazonS3Secret});
+          
         });
     </script>
 </head>
@@ -455,7 +457,7 @@ THE SOFTWARE.
     <div id="mainContent" class="content">
 		<div id="contentUpload">
 			<div id="uploadFileChooser" class="icon-add" style="width: 85px; height: 62px;margin: auto;margin-top: 115px;"></div>
-            <div id="contentUploadText">Upload something... </div>
+            <div id="contentUploadText">Loading Signiant App...</div>
         </div>
 
         <div id="contentListing">
