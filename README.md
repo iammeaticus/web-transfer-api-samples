@@ -39,7 +39,7 @@ Transfer API widgets are referenced by:
 
 `<script src="https://updates.signiant.com/javascript-api/2.5.2/widgets/transferProgress/mediashuttletransferprogress.js" type="text/javascript"></script>`
 
-The API Key is now provided to the Transfer Object directly, rather than through the “<script>” tag. To specify an API key to use for a transfer call the following method on an Upload or Download object:
+The API Key is now provided to the Transfer Object directly, rather than through the `<script>` tag. To specify an API key to use for a transfer call the following method on an Upload or Download object:
 
 ```javascript
 var upload = new Signiant.Mst.Upload();
@@ -50,7 +50,9 @@ download.setApiKey('abc123');`
 ```
 
 Note that this replaces the line:
-`transferObject.setProperty('com.signiant.interactivetransfer.engine.api_key', 'YOUR_API_KEY');`
+```javascript
+transferObject.setProperty('com.signiant.interactivetransfer.engine.api_key', 'YOUR_API_KEY');
+```
 that may be present in your code.
 
 # Changes
