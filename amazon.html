@@ -25,9 +25,9 @@ THE SOFTWARE.
   ******************************
   * INSTRUCTIONS
   ******************************
-  This sample webpage provides an example of how you can use Flight in a web application.
+  This sample webpage provides an example of how you can use the Signiant Web Transfer API to upload and download from Amazon AWS cloud storage.
   
-  Need help? Visit https://flight.support.signiant.com/
+  Need help? Visit https://support.signiant.com/
 -->
 <html><head>
     <script type="text/javascript">
@@ -412,7 +412,6 @@ THE SOFTWARE.
                             }
                           
                             for (var i = 0; i < data.CommonPrefixes.length; i++) {
-                                textToAppend += '<div class="row"><div class="cell"><i class="fa fa-folder-o"></i></div><div class="cell"><a href=# onclick="updateBucket(\''+data.CommonPrefixes[i].Prefix+'\')">'+data.CommonPrefixes[i].Prefix+'</a></div></div>';
                             }
                             
                             for (var i = 0; i < data.Contents.length; i++) {
