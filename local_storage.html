@@ -65,122 +65,191 @@ THE SOFTWARE.
 		var trustCertificate = "-----BEGIN CERTIFICATE-----\nMIIE6zCCA9OgAwIBAgIBADANBgkqhkiG9w0BAQUFADCBkjELMAkGA1UEBhMCQ0Ex\nEDAOBgNVBAgTB09udGFyaW8xDzANBgNVBAcTBk90dGF3YTEhMB8GA1UEChMYU2ln\nbmlhbnQgTVMgVHJhbnNmZXIgQVBJMQ8wDQYDVQQLEwZEZXZPcHMxLDAqBgNVBAMT\nI1NpZ25pYW50IE1TIFRyYW5zZmVyIEFQSSBUcnVzdGVkIENBMB4XDTEzMDYxMjA0\nMDAwMVoXDTMzMDYxMjA0MDAwMVowgZIxCzAJBgNVBAYTAkNBMRAwDgYDVQQIEwdP\nbnRhcmlvMQ8wDQYDVQQHEwZPdHRhd2ExITAfBgNVBAoTGFNpZ25pYW50IE1TIFRy\nYW5zZmVyIEFQSTEPMA0GA1UECxMGRGV2T3BzMSwwKgYDVQQDEyNTaWduaWFudCBN\nUyBUcmFuc2ZlciBBUEkgVHJ1c3RlZCBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEP\nADCCAQoCggEBAM/iBZG81g6OgpB1u+Xiwcocx9HJeM5DSkL/L3ZVMl1pKulh9JnB\nzQryK2mvC24FwScdfqEv788cwgNzXquY2EUqz0y4ult24GziI8oyGb/OZGlP7Jax\n+2c9Rd1LV8A3z9U4IwXMHJ35pbjMnH6QjaswFl4XjSIP7XK+SBANXxq/3aE9bulL\nlx50GTjek2o7l1TkZ+gPVCDFyaGpc1ezgZ95zXTizk6jJw+JZYzcBw8xtFHx4rna\ntB3VLbTO8rVleY0wE7YSOtabb1e3Z+W3RzJ8hqueoih0wUzN+cbUH/H3dLJ/dBcQ\n59gdam3Db/pmbuiqOTWBBumZ0TVd8i1jT2MCAwEAAaOCAUgwggFEMA8GA1UdEwEB\n/wQFMAMBAf8wEQYJYIZIAYb4QgEBBAQDAgIEMAsGA1UdDwQEAwIBBjAwBglghkgB\nhvhCAQ0EIxYhVHJ1c3RlZCBERFMgQ2VydGlmaWNhdGUgQXV0aG9yaXR5MB0GA1Ud\nDgQWBBTaOaPuXmtLDTJVv++VYBiQr9gHCTCBvwYDVR0jBIG3MIG0gBTaOaPuXmtL\nDTJVv++VYBiQr9gHCaGBmKSBlTCBkjELMAkGA1UEBhMCQ0ExEDAOBgNVBAgTB09u\ndGFyaW8xDzANBgNVBAcTBk90dGF3YTEhMB8GA1UEChMYU2lnbmlhbnQgTVMgVHJh\nbnNmZXIgQVBJMQ8wDQYDVQQLEwZEZXZPcHMxLDAqBgNVBAMTI1NpZ25pYW50IE1T\nIFRyYW5zZmVyIEFQSSBUcnVzdGVkIENBggEAMA0GCSqGSIb3DQEBBQUAA4IBAQCb\n1ZLHXZM0vRUDOJpPgWv+3WDPYDcDHwfTImcsutbAobL61TRD+MBDmv89A8W8wYWk\n5MiDhBvAUVUhJm1rgLxxjOjqiX4WpikbhmMc5hjNQN0h1Ybt7XideN+DCiR/tnAv\nhMyW0efovrHwYN15XxoDN/GgMYb7kNy9Jc4mi5jt05wSaDKv1iht7VFE6K2SVuvi\nwwmz+4BaAlbp5yCDULwqtCpkaS6w05538Bfhruw9iswZcZyAK5E9iTFT0h+jpe23\nQhYpTkcLu9vhCM/7jEV6SGxRMFnV5JVPs/sGDVcdW9D9j92h+p0ti+HXiIR0TwDb\ngPIRFH2JSaYBwoIFQMPl\n-----END CERTIFICATE-----";
 		var transferObject = null;
 
-		function checkForPlugin() {
-			console.log("Check for Media Shuttle Plugin");
-			detectPlugin({success:initializeScriptsInPage, error:pluginErrorFailure});
+		function checkForSigniantApp() {
+		  console.log("Check for Signiant App");
+		  Signiant.Mst.configure({
+            networkConnectivityErrorCallback: networkConnectivityErrorCallback,
+            appCommunicationErrorCallback: appCommunicationErrorCallback,
+            networkConnectivityRestoredCallback: networkConnectivityRestoredCallback
+          });
+          
+          detectPlugin({success:initializeScriptsInPage, error:appDetectionFailed});
 		}
 
-		function pluginErrorFailure(){
-			alert("Media Shuttle Transfer API Plugin Failed to load. Transfer Services will not be available.");
+		// This will be called when the Transfer API detects network loss (will not throw if only changing networks)
+		// The Signiant App should recover and continue transfer if network timeout is < 1 minute
+		function networkConnectivityErrorCallback () {
+			console.log("Network Connectivity Loss Detected");
+			alert("Network Loss Detected, Waiting for Network To Return");
+		}
+
+		// This will be called when the Transfer API detects network connectivity is restored
+		// The Signiant App should recover and continue transfer
+		function networkConnectivityRestoredCallback () {
+			console.log("Network Connectivity Restored");
+			alert("Network Connectivity Restored");
+			if ( transferObject === 'undefined' ){
+				alert("transfer object undefined")
+			} else {
+				if ( transferObject.currentTransferState == Signiant.Mst.transferState.TRANSFERRING ){
+					alert("state == TRANSFERRING")
+				} else {
+					alert("state != TRANSFERRING")
+				}
+			}
+		}
+
+		// The Signiant App would have cancelled any running transfers if this callback is fired
+		function appCommunicationErrorCallback () {
+			console.log("Connection to Signiant App Lost");
+			alert("Your connection has been lost. Press launch application on the next dialog.")
+            reInitializeApp();
+		}
+
+		/* Called in response to success initialize on Signiant.mst.initialize */
+        function reIntializeSuccess() {
+			console.log("Connection to Signiant App Re-established");
+			alert("Connection to Signiant App Re-established");
+			if ( transferObject !== 'undefined' ){
+				console.log("Checking to restart transfer");
+				// check and see if transfer was running, if so restart transfer
+				// we could send a cancel as well at this point to ensure the previous transfer was cancelled
+				// but Signiant App will cancel transfers when communication with Browser lost for significant period of time
+				if ( transferObject.currentTransferState == Signiant.Mst.transferState.TRANSFERRING ){
+					console.log("Restarting Transfer");
+					alert("Restarting Transfer in Progress");
+					// Set back to IDLE, pending this being tracked in Transfer API
+					transferObject.currentTransferState = Signiant.Mst.transferState.IDLE;
+					transferObject.startUpload();
+				}
+			}
+		}
+		
+        /* Called in response to failure to initialize on Signiant.mst.initialize */
+		function reInitializeFailure() {
+			console.log("Re-Initialize Signiant App Failed, retrying");
+			alert("Signiant App Connection Lost, Retrying...");
+			reInitializeApp();
+		}		
+
+		/* Timeout is time to wait for app to respond to new session request. We suggest 20 seconds, but you may want to lower this. If the timer completes and no message is received, reInitializeFailure will fire  */
+		function reInitializeApp() {
+			console.log("Attempt Re Initialize Connection to Signiant");
+			var options = { "timeout" : 20000 };
+			Signiant.Mst.initialize(reIntializeSuccess, reInitializeFailure, options);
+		}
+
+		function appDetectionFailed(){
+          alert("Signiant App failed to load. Transfer Services will not be available.");
 		}
 
 		function initializeScriptsInPage(){
-			transferObject = initializeUploadObject();
+          transferObject = initializeUploadObject();
 
-			console.log("Render File Selector Widget");
+          console.log("Render File Selector Widget");
 
-			var dndWidget = new Signiant.Mst.DnDWidget( 'fileSelector', transferObject );
-			dndWidget.render();
+          var dndWidget = new Signiant.Mst.DnDWidget( 'fileSelector', transferObject );
+          dndWidget.render();
 
-			console.log("Render Progress Bar Widget");
+          console.log("Render Progress Bar Widget");
 
-			var progressBar = new Signiant.Mst.TransferProgressWidget('displayProgress', transferObject);
-			progressBar.showPercent(true);
-			progressBar.showEstimatedCompletion(true);
-			progressBar.render();
+          var progressBar = new Signiant.Mst.TransferProgressWidget('displayProgress', transferObject);
+          progressBar.showPercent(true);
+          progressBar.showEstimatedCompletion(true);
+          progressBar.render();
 		}
 
 		function initializeUploadObject() {
-			console.log("Initialize Upload Object");
+          console.log("Initialize Upload Object");
 
-			var uploadTransfer = new Signiant.Mst.Upload();
+          var uploadTransfer = new Signiant.Mst.Upload();
 
-			uploadTransfer.setServer(defaultServer);
-			uploadTransfer.setTrustedCA(trustCertificate);
-			uploadTransfer.setCredentials( userName, password);
+          uploadTransfer.setServer(defaultServer);
+          uploadTransfer.setTrustedCA(trustCertificate);
+          uploadTransfer.setCredentials( userName, password);
 
-			uploadTransfer.subscribeForTransferErrors(transferErrors);
-			uploadTransfer.subscribeForBasicEvents(transferEvents);
+          uploadTransfer.subscribeForTransferErrors(transferErrors);
+          uploadTransfer.subscribeForBasicEvents(transferEvents);
 
-            uploadTransfer.setApiKey(apiKey); //required
-            
-			return uploadTransfer;
+          uploadTransfer.setApiKey(apiKey); //required
+
+          return uploadTransfer;
 		}
 
 		function transferErrors (transferObject, eventCode, eventMsg, propertyName){
-			console.log("Sample Upload Transfer Error " + eventCode + ", " + eventMsg);
-			sendMessageToEventBox(eventMsg);
-			showDiv('#uploadAction');
-			hideDiv('#cancelAction');
+          console.log("Sample Upload Transfer Error " + eventCode + ", " + eventMsg);
+          sendMessageToEventBox(eventMsg);
+          showDiv('#uploadAction');
+          hideDiv('#cancelAction');
 		}
 
 		function transferEvents ( transferObject, eventCode, eventMsg, eventData ) {
-			console.log("Sample Upload Transfer Event " + eventCode + ", " + eventMsg);
-			var message = eventMsg;			
-			if ( eventCode == 'TRANSFER_STARTED') {
-				showDiv('#cancelAction');
-				hideDiv('#uploadAction');
-			}
-			else if (eventCode == 'TRANSFER_PRE_FILE_EVENT')
-				message = "Uploading File " + eventData;
-			else if (eventCode == 'TRANSFER_COMPLETED') {
-				showDiv('#uploadAction');
-				hideDiv('#cancelAction');
-				message = "Completed File Upload Successfully";	
-			} else if (eventCode == 'TRANSFER_CANCEL_EVENT') {
-				showDiv('#uploadAction');
-				hideDiv('#cancelAction');
-			}
-			
-			if ( eventCode != 'PRE_TRANSFER_EVENT') {
-				sendMessageToEventBox(message);
-			}
+          console.log("Sample Upload Transfer Event " + eventCode + ", " + eventMsg);
+          var message = eventMsg;			
+          if ( eventCode == 'TRANSFER_STARTED') {
+            showDiv('#cancelAction');
+            hideDiv('#uploadAction');
+          }
+          else if (eventCode == 'TRANSFER_PRE_FILE_EVENT')
+            message = "Uploading File " + eventData;
+          else if (eventCode == 'TRANSFER_COMPLETED') {
+            showDiv('#uploadAction');
+            hideDiv('#cancelAction');
+            message = "Completed File Upload Successfully";	
+          } else if (eventCode == 'TRANSFER_CANCEL_EVENT') {
+            showDiv('#uploadAction');
+            hideDiv('#cancelAction');
+          }
+
+          if ( eventCode != 'PRE_TRANSFER_EVENT') {
+            sendMessageToEventBox(message);
+          }
 		}
 
 		function startUploadFiles(transferObject) {
-			console.log("Start Upload files");
-			try {
-				selectedFiles = transferObject.getFiles();
-				if (selectedFiles.length == 0)
-					console.log("No files Selected for Upload");
-				else{
-					transferObject.startUpload();
-				}
-			} catch (exception) {
-				console.log("Exception in Upload Files");
-				console.log(exception);
-			}
+          console.log("Start Upload files");
+          try {
+            selectedFiles = transferObject.getFiles();
+            if (selectedFiles.length == 0)
+                console.log("No files Selected for Upload");
+            else{
+                transferObject.startUpload();
+            }
+          } catch (exception) {
+            console.log("Exception in Upload Files");
+            console.log(exception);
+          }
 		}
 
 		function cancelUpload(transferObject) {
-			console.log("Cancel Upload files");
-			try {
-				transferObject.cancel();
-			} catch (exception) {
-				console.log("Exception in Cancel Upload Files");
-				console.log(exception);
-			}
+          console.log("Cancel Upload files");
+          try {
+            transferObject.cancel();
+          } catch (exception) {
+            console.log("Exception in Cancel Upload Files");
+            console.log(exception);
+          }
 		}
 
 		function sendMessageToEventBox( message ){
-			var div = $('#events');
-			if (div.length > 0) {
-		        div.html(message);
-			}
+          var div = $('#events');
+          if (div.length > 0) {
+            div.html(message);
+          }
 		}
 
 		function showDiv( divId ) {
-			var actionDiv = $(divId);
-			actionDiv.show();
+          var actionDiv = $(divId);
+          actionDiv.show();
 		}
 
 		function hideDiv( divId ) {
-			var actionDiv = $(divId);
-			actionDiv.hide();
+          var actionDiv = $(divId);
+          actionDiv.hide();
 		}
 
 		$(document).ready(function(){
-			checkForPlugin();
+          checkForSigniantApp();
 		});
 	</script>
 </head>
