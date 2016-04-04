@@ -73,7 +73,7 @@ THE SOFTWARE.
             networkConnectivityRestoredCallback: networkConnectivityRestoredCallback
           });
           
-          detectPlugin({success:initializeScriptsInPage, error:appDetectionFailed});
+          Signiant.Mst.initialize(initializeScriptsInPage, failureCallback);
 		}
 
 		// This will be called when the Transfer API detects network loss (will not throw if only changing networks)
@@ -143,7 +143,17 @@ THE SOFTWARE.
           alert("Signiant App failed to load. Transfer Services will not be available.");
 		}
 
-		function initializeScriptsInPage(){
+		/**
+         * Callback for failure call of Signiant.Mst.initialize()
+         * 
+         * @return null
+        */
+        var failureCallback = function () {
+            var installWidget = new Signiant.Mst.SigAppInstallWidget('mainContent');
+            installWidget.showInstallerWindow(); 
+        }
+        
+        function initializeScriptsInPage(){
           transferObject = initializeUploadObject();
 
           console.log("Render File Selector Widget");
