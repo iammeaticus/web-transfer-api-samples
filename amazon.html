@@ -123,12 +123,12 @@ THE SOFTWARE.
         function checkForSigniant() {
 		  console.log("Check for Signiant App");
 		  Signiant.Mst.configure({
-        		networkConnectivityErrorCallback: networkConnectivityErrorCallback,
-        		appCommunicationErrorCallback: appCommunicationErrorCallback,
-        		networkConnectivityRestoredCallback: networkConnectivityRestoredCallback
-        	});
+            networkConnectivityErrorCallback: networkConnectivityErrorCallback,
+            appCommunicationErrorCallback: appCommunicationErrorCallback,
+            networkConnectivityRestoredCallback: networkConnectivityRestoredCallback
+          });
           
-            Signiant.Mst.initialize(initializeUploadObject, failureCallback)	
+          Signiant.Mst.initialize(initializeUploadObject, failureCallback);	
         }
       
         /**
@@ -355,6 +355,8 @@ THE SOFTWARE.
           download.setStorageConfig('{"access-key":"'+amazonS3Key+'", "secret-key":"'+amazonS3Secret+'", "bucket":"'+amazonS3Bucket+'"}');
           //set the probeLB (probe load balancer) to true (always true for Flight).
           download.setProbeLB(true);
+          download.setFilePathHandlingMode(Signiant.Mst.Transfer.filePathModePath);
+          download.setFileCollisionHandlingMode(Signiant.Mst.Transfer.fileCollisionModeVersion);
           //set the files to download to the file that is passed
           download.setFilesToDownload(new Array(fileName));
           download.subscribeForTransferErrors(transferErrors);
@@ -412,6 +414,7 @@ THE SOFTWARE.
                             }
                           
                             for (var i = 0; i < data.CommonPrefixes.length; i++) {
+                                textToAppend += '<div class="row"><div class="cell"><i class="fa fa-folder-o"></i></div><div class="cell"><a href=# onclick="downloadFile(\''+data.CommonPrefixes[i].Prefix+'\')">'+data.CommonPrefixes[i].Prefix+'</a></div></div>';
                             }
                             
                             for (var i = 0; i < data.Contents.length; i++) {
