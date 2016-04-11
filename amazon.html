@@ -400,13 +400,13 @@ THE SOFTWARE.
                 bucket.listObjects({Delimiter: "/", Prefix: thisPrefix}, function (err, data) {
                     if (err) {
                         document.getElementById('objects').innerHTML =
-                        'Could not load objects from Amazon S3. Check your credentials and <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">ensure CORS is setup properly</a>. Error was <i>'+err+'</i>';
+                        'Could not load objects from cloud storage. Check your credentials and <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">ensure CORS is setup properly</a>. Error was <i>'+err+'</i>';
                     } else {
                         data.Contents.sort();
                         $("#objects").fadeOut(500).promise().then(function() {
                             $("#objects").empty();
                             if( data.Contents.length == 0) {
-                                $("#objects").html("No files in S3 right now. Why not upload one?");
+                                $("#objects").html("No files in cloud storage right now. Why not upload one?");
                             }
                             
                             if( thisPrefix != "" ) {
