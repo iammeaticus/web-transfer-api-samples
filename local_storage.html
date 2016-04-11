@@ -58,7 +58,7 @@ THE SOFTWARE.
         ** Check out amazon.html for an example using Amazon AWS S3.
         ** Check out azure.html for an example using Microsoft Azure.
         */
-        var apiKey = "YOUR_API_KEY_HERE";
+        var apiKey = "313a114e-b34c-4862-93f2-a1eb0116aaca";
         var defaultServer = 'api-transfers.developer.mediashuttle.com';
 		var userName = 'transferapi';
 		var password = 'transferapi';
@@ -153,6 +153,17 @@ THE SOFTWARE.
             installWidget.showInstallerWindow(); 
         }
         
+        /**
+         * Display progress of upload (doesn't work on download at the moment.)
+         *
+         * @return null
+        */
+        function transferProgressCallback(transferObject, numBytesSent, numBytesTotal, estimatedTimeRemaining) {
+            
+            var percent = Math.round((numBytesSent/numBytesTotal)*100);
+            $("#contentUploadText").html(percent+"% completed.<p>Completes in about "+moment.duration(estimatedTimeRemaining*1000).humanize()+"</p>");
+        }
+
         function initializeScriptsInPage(){
           transferObject = initializeUploadObject();
 
@@ -181,6 +192,8 @@ THE SOFTWARE.
           uploadTransfer.subscribeForTransferErrors(transferErrors);
           uploadTransfer.subscribeForBasicEvents(transferEvents);
 
+          uploadTransfer.subscribeForTransferProgress(transferProgressCallback);
+          
           uploadTransfer.setApiKey(apiKey); //required
 
           return uploadTransfer;
@@ -193,7 +206,7 @@ THE SOFTWARE.
           hideDiv('#cancelAction');
 		}
 
-		function transferEvents ( transferObject, eventCode, eventMsg, eventData ) {
+		function transferEvents (transferObject, eventCode, eventMsg, eventData ) {
           console.log("Sample Upload Transfer Event " + eventCode + ", " + eventMsg);
           var message = eventMsg;			
           if ( eventCode == 'TRANSFER_STARTED') {
