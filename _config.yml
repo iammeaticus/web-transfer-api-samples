@@ -9,7 +9,7 @@ permalink:        pretty
 title:            Signiant Developer
 tagline:          ''
 description:      'The Signiant Developer Website'
-url:              http://signiant.github.io/
+url:              http://signiant.github.io/web-transfer-api-samples/
 baseurl:          /web-transfer-api-samples/
 
 author:
