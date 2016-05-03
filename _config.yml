@@ -10,7 +10,7 @@ title:            Signiant Developer
 tagline:          ''
 description:      'The Signiant Developer Website'
 url:              http://dev.signiant.com
-baseurl:          
+baseurl:          /
 
 author:
   name:           'Signiant'

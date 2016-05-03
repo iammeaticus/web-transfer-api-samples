@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
  <title>Signiant Developer</title>
- <link href="http://signiant.github.io/web-transfer-api-samples/atom.xml" rel="self"/>
- <link href="http://signiant.github.io/web-transfer-api-samples/"/>
- <updated>2016-05-03T14:57:02-04:00</updated>
- <id>http://signiant.github.io/web-transfer-api-samples</id>
+ <link href="http://dev.signiant.com/atom.xml" rel="self"/>
+ <link href="http://dev.signiant.com/"/>
+ <updated>2016-05-03T15:07:54-04:00</updated>
+ <id>http://dev.signiant.com</id>
  <author>
    <name>Signiant</name>
    <email></email>
