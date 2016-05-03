@@ -8,7 +8,7 @@ permalink:        pretty
 # Setup
 title:            Signiant Developer
 tagline:          ''
-description:      'The Signiant Developer Website'
+description:      'Accelerating file transfers'
 url:              http://dev.signiant.com
 baseurl:          /
 
@@ -17,7 +17,7 @@ author:
   url:            https://twitter.com/signiant
 
 # Custom vars
-version:          2.5.2
+version:          2.5.2 #the current version of the JavaScript Transfer API
 
 github:
   repo:           https://github.com/Signiant
