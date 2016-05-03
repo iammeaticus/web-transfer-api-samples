@@ -9,8 +9,8 @@ permalink:        pretty
 title:            Signiant Developer
 tagline:          ''
 description:      'The Signiant Developer Website'
-url:              http://developer.signiant.com
-baseurl:          /
+url:              http://signiant.github.io/
+baseurl:          /web-transfer-api-samples/
 
 author:
   name:           'Signiant'
