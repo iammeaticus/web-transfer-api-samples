@@ -16,8 +16,9 @@ author:
   name:           'Signiant'
   url:            https://twitter.com/signiant
 
-# Custom vars
-version:          2.5.2 #the current version of the JavaScript Transfer API
+# Custom vars 
+#the current version of the JavaScript Transfer API
+version:          2.5.2 
 
 github:
   repo:           https://github.com/Signiant
