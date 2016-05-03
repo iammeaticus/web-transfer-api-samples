@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Transfer
-permalink: /tapi/v2/transfer
+permalink: tapi/v2/transfer
 ---
 
 ## Signiant.Mst.Transfer

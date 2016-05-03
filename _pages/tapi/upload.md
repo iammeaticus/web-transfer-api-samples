@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Upload
-permalink: /tapi/v2/upload
+permalink: tapi/v2/upload
 ---
 
 ### Signiant.Mst.Upload

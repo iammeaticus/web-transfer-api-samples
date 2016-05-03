@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Download
-permalink: /tapi/v2/download
+permalink: tapi/v2/download
 ---
 
 ## Signiant.Mst.Download
