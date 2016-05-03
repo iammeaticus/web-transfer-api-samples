@@ -11,7 +11,7 @@ This allows you to easily upload files to cloud storage or a local storage serve
 //create a new upload Object
 transferObject = new Signiant.Mst.Upload();
 //set the default server
-transferObject.setServer('us-east-1-am.cloud.signiant.com'); //see https://flight.support.signiant.com/customer/en/portal/articles/2173685 for cloud storage servers
+transferObject.setServer('us-east-1-am.cloud.signiant.com'); //see https://flight.support.signiant.com/customer/en/portal/articles/2173685 for cloud servers
 transferObject.subscribeForTransferErrors(transferErrors);
 transferObject.subscribeForBasicEvents(transferEvents);
 transferObject.subscribeForTransferProgress(transferProgressCallback);
@@ -19,7 +19,7 @@ transferObject.subscribeForTransferProgress(transferProgressCallback);
 transferObject.setStorageConfig('{"access-key":"'+YOUR_S3_ACCESS_KEY+'", "secret-key":"'+YOUR_S3_SECRET+'", "bucket":"'+YOUR_S3_BUCKET+'"}');
 } 
 //send the server the API key
-transferObject.setApiKey(YOUR_API_KEY); //get an API key from 
+transferObject.setApiKey(YOUR_API_KEY); //get an API key from http://info.signiant.com/flight-Free-Trial_1.html
 transferObject.setProbeLB(true); //always set to true for Flight
 ```
 

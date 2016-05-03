@@ -104,7 +104,7 @@
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//create a new upload Object</span>
 <span class="nx">transferObject</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Signiant</span><span class="p">.</span><span class="nx">Mst</span><span class="p">.</span><span class="nx">Upload</span><span class="p">();</span>
 <span class="c1">//set the default server</span>
-<span class="nx">transferObject</span><span class="p">.</span><span class="nx">setServer</span><span class="p">(</span><span class="s1">'us-east-1-am.cloud.signiant.com'</span><span class="p">);</span> <span class="c1">//see https://flight.support.signiant.com/customer/en/portal/articles/2173685 for cloud storage servers</span>
+<span class="nx">transferObject</span><span class="p">.</span><span class="nx">setServer</span><span class="p">(</span><span class="s1">'us-east-1-am.cloud.signiant.com'</span><span class="p">);</span> <span class="c1">//see https://flight.support.signiant.com/customer/en/portal/articles/2173685 for cloud servers</span>
 <span class="nx">transferObject</span><span class="p">.</span><span class="nx">subscribeForTransferErrors</span><span class="p">(</span><span class="nx">transferErrors</span><span class="p">);</span>
 <span class="nx">transferObject</span><span class="p">.</span><span class="nx">subscribeForBasicEvents</span><span class="p">(</span><span class="nx">transferEvents</span><span class="p">);</span>
 <span class="nx">transferObject</span><span class="p">.</span><span class="nx">subscribeForTransferProgress</span><span class="p">(</span><span class="nx">transferProgressCallback</span><span class="p">);</span>
@@ -112,7 +112,7 @@
 <span class="nx">transferObject</span><span class="p">.</span><span class="nx">setStorageConfig</span><span class="p">(</span><span class="s1">'{"access-key":"'</span><span class="o">+</span><span class="nx">YOUR_S3_ACCESS_KEY</span><span class="o">+</span><span class="s1">'", "secret-key":"'</span><span class="o">+</span><span class="nx">YOUR_S3_SECRET</span><span class="o">+</span><span class="s1">'", "bucket":"'</span><span class="o">+</span><span class="nx">YOUR_S3_BUCKET</span><span class="o">+</span><span class="s1">'"}'</span><span class="p">);</span>
 <span class="p">}</span> 
 <span class="c1">//send the server the API key</span>
-<span class="nx">transferObject</span><span class="p">.</span><span class="nx">setApiKey</span><span class="p">(</span><span class="nx">YOUR_API_KEY</span><span class="p">);</span> <span class="c1">//get an API key from </span>
+<span class="nx">transferObject</span><span class="p">.</span><span class="nx">setApiKey</span><span class="p">(</span><span class="nx">YOUR_API_KEY</span><span class="p">);</span> <span class="c1">//get an API key from http://info.signiant.com/flight-Free-Trial_1.html</span>
 <span class="nx">transferObject</span><span class="p">.</span><span class="nx">setProbeLB</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span> <span class="c1">//always set to true for Flight</span>
 </code></pre>
 </div>
