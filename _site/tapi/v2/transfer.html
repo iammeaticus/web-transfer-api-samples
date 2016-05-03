@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Transfer &middot; Signiant Developer
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          Signiant Developer
+        </a>
+      </h1>
+      <p class="lead">The Signiant Developer Website</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Home</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about/">About</a>
+          
+        
+      
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/tapi/v2/download">Download</a>
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+          
+            <a class="sidebar-nav-item active" href="/tapi/v2/transfer">Transfer</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/tapi/v2/upload">Upload</a>
+          
+        
+      
+
+      <span class="sidebar-nav-item">Currently v2.5.2</span>
+    </nav>
+
+    <p>&copy; 2016. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="page">
+  <h1 class="page-title">Transfer</h1>
+  <h2 id="signiantmsttransfer">Signiant.Mst.Transfer</h2>
+<p>This class should not be instantiated. It is extended by the Download or Upload class.</p>
+
+<h1 id="methods">Methods</h1>
+
+<h2 id="cancel">cancel</h2>
+<p>Cancels an in-progress upload or download. This method returns as soon as the Signiant App has been successfully asked to cancel the transfer. Further notifications related to the progress of the transfer can be retrieved by registering event listeners with the subscribeForBasicEvents and subscribeForTransferProgress functions.  If a transfer is not in progress, an exception is thrown.</p>
+
+<h2 id="clearserverlist">clearServerList</h2>
+<p>Removes all the servers that exist in the transfer configuration property for the source/destination server.</p>
+
+<h2 id="deleteproperty">deleteProperty</h2>
+<p>Deletes the transfer configuration property specified by name.  An exception is thrown if name is undefined, or if the data-type of name is not String.</p>
+
+<h2 id="getdestinationdir">getDestinationDir</h2>
+<p>Returns the location of the destination directory where downloaded content will be stored, from the download configuration properties.</p>
+
+<h2 id="getlasterror">getLastError</h2>
+<p>Returns the detailed error code, as reported by the Media Shuttle Transfer Plug-in, for the latest error condition encountered during an upload or download. This error code can be used to further hone in on the exact error that occurred in the plug-in.</p>
+
+<h2 id="getloglevel">getLogLevel</h2>
+<p>Retrieve the current upload and download log level.
+* INFO - basic logging level (default)
+* DEBUG - debug logging level</p>
+
+<h2 id="getproperty">getProperty</h2>
+<p>Returns the value of the transfer configuration property specified by name. An exception is thrown if name is undefined, or if the data-type of name is not String.</p>
+
+<h2 id="gettransferid">getTransferId</h2>
+<p>Returns the unique identifier for the transfer. Every upload or download has a unique identifier that you can use to distinguish one transfer from another.</p>
+
+<h2 id="gettrustedca">getTrustedCA</h2>
+<p>Returns the value of the trusted CA certificate configuration property.</p>
+
+<h2 id="getserver">getServer</h2>
+<p>Returns the list of all servers that exist in the transfer configuration property for the source/destination server.</p>
+
+<h2 id="getfileencryption">getFileEncryption</h2>
+<p>Returns a JSON object with the current key and initialization vector set for end-to-end file encryption. If file encryption is not set, undefined is returned. See the End-to-End File Encryption section in the Developer Guide for more details.</p>
+
+<h2 id="getsubfolder">getSubFolder</h2>
+<p>Returns the sub folder set for the upload or download. If a sub folder was not set undefined will be returned.</p>
+
+<h2 id="gettargetfilename">getTargetFileName</h2>
+<p>Returns the target file name mapping for the upload or download. If a sub folder was not set undefined will be returned.</p>
+
+<h2 id="resettransferproperties">resetTransferProperties</h2>
+<p>Clears all the configuration properties for the upload or download.</p>
+
+<h2 id="setcredentials">setCredentials</h2>
+<p>Sets the credentials to be used for the transfer in the configuration properties.  An exception is thrown if username or password is undefined.</p>
+
+<h2 id="setdestinationdir">setDestinationDir</h2>
+<p>Saves the location of the destination directory where downloaded content is stored, in the download configuration properties. An exception is thrown if destinationDir is undefined or an empty String.</p>
+
+<h2 id="setjobnameprefix">setJobNamePrefix</h2>
+<p>Sets the prefix of the name associated with an upload or download to the value specified in the value parameter. The remainder of the name will be a date/time stamp in numeric form. The name is useful for identifying Media Shuttle Transfer API uploads and downloads in a management Interface. The default value is MediaShuttleAPI_. The value is limited to 32 alphanumeric characters and underscores.  An exception is thrown if the value contains invalid characters or is undefined.</p>
+
+<h2 id="setloglevel">setLogLevel</h2>
+<p>Enable and disable upload and download logging.
+* INFO - basic logging level (default)
+* DEBUG - debug logging level</p>
+
+<h2 id="setproperty">setProperty</h2>
+<p>Changes the value of a specific property in the transfer configuration of an upload or download.  An exception is thrown if the name or value are undefined, or if the data-type of name is not String.</p>
+
+<h2 id="setserver">setServer</h2>
+<p>Add the specified server, with the specified relays, to the source/destination server configuration property. Every time a method is called, the supplied server is added to the existing list of source/destination servers for the transfer. To clear the existing list of servers, use the clearServerList method. An exception is thrown if server is undefined or is an empty String.</p>
+
+<h2 id="setsubfolder">setSubFolder</h2>
+<p>Sets a sub folder set for the upload or download. On upload the sub folder will be prepended to the file and folders specified. The files and folders will be created on the target file system under the sub folder specified. In the download case the sub folder is prepended to the file names specified for download. In this case the files must exist in the specified by the sub folder.</p>
+
+<h2 id="settargetfilename">setTargetFileName</h2>
+<p>Set target file name allows a file being uploaded to be saved with a different name on the target storage system. The current implementation is limited to a single file. If multiple files or folders are specified for upload and a target file name is set the upload will not start.</p>
+
+<h2 id="settransferproperties">setTransferProperties</h2>
+<p>Overwrites all the transfer configuration properties with the supplied properties parameter.  An exception is thrown if properties is undefined or not a JSON object.</p>
+
+<h2 id="settrustedca">setTrustedCA</h2>
+<p>Stores the supplied CA certificate in the transfer configuration properties. The supplied certificate must be a Base64 encoded DER certificate, enclosed between “—–BEGIN CERTIFICATE—–” and “—–END CERTIFICATE—–”.  An exception is thrown, if trustedCACertificate is undefined, or empty, or if is not in the DER format, enclosed between “—–BEGIN CERTIFICATE—–” and “—–END CERTIFICATE—–”.</p>
+
+<h2 id="setfileencryption">setFileEncryption</h2>
+<p>Enable end-to-end file encryption by specifying an encryption key and initialization vector. The values need to be supplied in a JSON object with the key and initialization vector. The format is : { ‘key’ : ‘FFFF…’, ‘iv’ : ‘FFFF….’ }. See the End-to-End File Encryption section in the Developer Guide for more details.</p>
+
+<h2 id="subscribeforbasicevents">subscribeForBasicEvents</h2>
+<p>Registers the supplied callbackFunc as the handler for basic events related to an upload or download.</p>
+
+<p>The following event types are classified as basic events:</p>
+
+<ul>
+  <li>TRANSFER_STARTED</li>
+  <li>PRE_TRANSFER_EVENT</li>
+  <li>TRANSFER_CONNECTION_STATUS</li>
+  <li>TRANSFER_QUEUED</li>
+  <li>TRANSFER_PRE_FILE_EVENT</li>
+  <li>TRANSFER_ERROR_EVENT</li>
+  <li>TRANSFER_CANCEL_EVENT</li>
+  <li>INJECTED_FILES_FOUND_EVENT</li>
+  <li>INJECTED_DESTINATION_DIR_EVENT</li>
+  <li>TRANSFER_COMPLETED</li>
+</ul>
+
+<p>The callbackFunc is invoked with the following parameters:
+Upload or Download transfer object (Object)
+Event Type (String)
+Message (String)
+(Optional) Event-specific data. Based on the type of event, the callbackFunc will be invoked with a fourth parameter.
+For further details see the table of Basic Event Types</p>
+
+<h2 id="subscribefortransfererrors">subscribeForTransferErrors</h2>
+<p>Registers the supplied callbackFunc as the handler for transfer error events related to an upload or download.</p>
+
+<p>The callbackFunc is invoked with the following parameters:
+Upload or Download transfer object (Object)
+Event Type (String)
+Error Message (String)
+(Optional) Name of configuration property that caused the error (String)
+The Event Type supplied to the callbackFunc can have the following values, depending on the specific error condition:</p>
+
+<ul>
+  <li>INCOMPLETE_USER_CREDENTIALS</li>
+  <li>INVALID_CREDENTIALS</li>
+  <li>SPECIFIED_FILE_DOES_NOT_EXIST</li>
+  <li>DOWNLOAD_FILES_DO_NOT_EXIST</li>
+  <li>NO_FOLDER_CHOSEN_FOR_DOWNLOAD</li>
+  <li>INVALID_DESTINATION_DIRECTORY</li>
+  <li>CONNECTION_FAILURE</li>
+  <li>TRANSFER_ERROR_EVENT</li>
+</ul>
+
+<p>The Error Type Table provides descriptions of the error types.</p>
+
+<h2 id="subscribefortransferprogress">subscribeForTransferProgress</h2>
+<p>Registers the supplied callbackFunc as the handler for transfer progress events related to an upload or	download.</p>
+
+<p>The callbackFunc is invoked with the following parameters:
+Upload or Download transfer object (Object)
+Bytes Sent/Received (Number)
+Total Bytes to be transferred (Number)
+Estimated Time Remaining, in seconds (Number)</p>
+
+</div>
+
+    </div>
+
+  </body>
+</html>

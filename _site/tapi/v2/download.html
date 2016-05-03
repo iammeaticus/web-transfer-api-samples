@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Download &middot; Signiant Developer
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          Signiant Developer
+        </a>
+      </h1>
+      <p class="lead">The Signiant Developer Website</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Home</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about/">About</a>
+          
+        
+      
+        
+      
+        
+          
+            <a class="sidebar-nav-item active" href="/tapi/v2/download">Download</a>
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/tapi/v2/transfer">Transfer</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/tapi/v2/upload">Upload</a>
+          
+        
+      
+
+      <span class="sidebar-nav-item">Currently v2.5.2</span>
+    </nav>
+
+    <p>&copy; 2016. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="page">
+  <h1 class="page-title">Download</h1>
+  <h2 id="signiantmstdownload">Signiant.Mst.Download</h2>
+<p>This class extends Signiant.Mst.Transfer.</p>
+
+<p>This object allows the programmer to perform an accelerated download using the Transfer API. The Signiant.Mst.Download object exposes functions to accomplish things such as picking the destination folder for downloaded files/folders, setting the authentication credentials for the destination server, etc.</p>
+
+<p>One Signiant.Mst.Download object must be created per download.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">transferObject</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Signiant</span><span class="p">.</span><span class="nx">Mst</span><span class="p">.</span><span class="nx">Download</span><span class="p">();</span>
+</code></pre>
+</div>
+
+<h1 id="methods">Methods</h1>
+
+<h2 id="clearfiles">clearFiles</h2>
+<p>This will clear the files/folders specified in the filesArray parameter, from the list of files to be uploaded. The files/folders must be specified using their full paths in the filesArray parameter. An exception is thrown if the filesArray parameter is undefined or datatype of filesArray is not an Array.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">clearFiles</span><span class="p">(</span><span class="nx">filesArray</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h2 id="clearallfiles">clearAllFiles</h2>
+<p>Clears all the files from the list of files to be uploaded.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">clearAllFiles</span> 
+</code></pre>
+</div>
+
+<h2 id="getfilescollisionhandlingmode">getFilesCollisionHandlingMode</h2>
+<p>Returns the value of the configuration property that determines how file-name collisions are handled for downloaded content. The following values can be returned: version and overwrite.</p>
+
+<h2 id="getfilepathhandlingmode">getFilePathHandlingMode</h2>
+<p>Returns the value of the configuration property that determines the folder-structure that is recreated for downloaded content. The following values can be returned: FLAT, PATH and FULL.</p>
+
+<h2 id="setdownloadfolder">setDownloadFolder</h2>
+<p>Sets the value of the configuration property that determines where the downloaded content will go.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">transferObject</span><span class="p">.</span><span class="nx">setDownloadFolder</span><span class="p">(</span><span class="s2">"/home/user"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h2 id="setfilecollisionhandlingmode">setFileCollisionHandlingMode</h2>
+<p>Sets the value of the configuration property that determines how file-name collisions are handled for downloaded content. Valid values for mode are: version and overwrite.</p>
+
+<p>The mode value behavior is:
+* version: If the name of a file/folder being downloaded collides with a file/folder that already exists in the destination directory, then a version suffix is appended to the name of the file/folder being downloaded. 
+* overwrite: If the name of a file/folder being downloaded collides with a file/folder that already exists in the destination directory, then the pre-existing file/folder is overwritten with the file/folder being downloaded.
+An exception is thrown if mode is undefined, empty or invalid.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">transferObject</span><span class="p">.</span><span class="nx">setFileCollisionHandlingMode</span><span class="p">(</span><span class="s1">'version'</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h2 id="setfilepathhandlingmode">setFilePathHandlingMode</h2>
+<p>Sets the value of the configuration property that determines the folder-structure that is recreated for downloaded content. Valid values for mode are: FLAT, PATH and FULL. An exception is thrown if mode is undefined, empty or invalid.</p>
+
+<p>The mode value behavior is:
+* FLAT: All downloaded content goes directly into the directory specified in the invocation of the setDownloadFolder method. See setFileCollisionHandlingMode for more information on using file-name collision handling with FLAT file-path handling mode.
+* PATH: All downloaded content goes into the directory specified in the invocation of the setDownloadFolder method, but the relative path of the content is duplicated, as it exists in the content repository on the source server.
+* FULL: All downloaded content goes into the directory specified in the invocation of the setDownloadFolder method, but the full path of the content is duplicated, as it exists in the content repository on the source server.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">transferObject</span><span class="p">.</span><span class="nx">setFilePathHandlingMode</span><span class="p">(</span><span class="s1">'FLAT'</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h2 id="setfilestodownload">setFilesToDownload</h2>
+<p>This function allows you to specify the files/folders to be downloaded. The files/folders must be specified using the full path in the filePathArray parameter, and must exist on the source server from where they are being downloaded.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">transferObject</span><span class="p">.</span><span class="nx">setFilesToDownload</span><span class="p">(</span><span class="nx">ArrayOfFiles</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h2 id="startdownload">startDownload</h2>
+<p>Starts the download of the specified files/folders from the source server to the user’s destination directory. If the specified API key is not valid, or if the Signiant App is not installed, an exception is thrown. This function simply notifies the Media Shuttle Transfer Plug-in to begin the transfer, and then returns. Further notifications related to the state/progress of the transfer can be retrieved by registering event listeners with the subscribeForBasicEvents and subscribeForTransferProgress functions.</p>
+
+</div>
+
+    </div>
+
+  </body>
+</html>

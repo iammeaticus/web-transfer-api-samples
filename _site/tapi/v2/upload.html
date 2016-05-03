@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Upload &middot; Signiant Developer
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          Signiant Developer
+        </a>
+      </h1>
+      <p class="lead">The Signiant Developer Website</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Home</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about/">About</a>
+          
+        
+      
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/tapi/v2/download">Download</a>
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/tapi/v2/transfer">Transfer</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item active" href="/tapi/v2/upload">Upload</a>
+          
+        
+      
+
+      <span class="sidebar-nav-item">Currently v2.5.2</span>
+    </nav>
+
+    <p>&copy; 2016. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="page">
+  <h1 class="page-title">Upload</h1>
+  <h3 id="signiantmstupload">Signiant.Mst.Upload</h3>
+<p>This allows you to easily upload files to cloud storage or a local storage server using Signiant’s acceleration. One Signiant.Mst.Upload object must be created per upload.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//create a new upload Object</span>
+<span class="nx">transferObject</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Signiant</span><span class="p">.</span><span class="nx">Mst</span><span class="p">.</span><span class="nx">Upload</span><span class="p">();</span>
+<span class="c1">//set the default server</span>
+<span class="nx">transferObject</span><span class="p">.</span><span class="nx">setServer</span><span class="p">(</span><span class="s1">'us-east-1-am.cloud.signiant.com'</span><span class="p">);</span> <span class="c1">//see https://flight.support.signiant.com/customer/en/portal/articles/2173685 for cloud storage servers</span>
+<span class="nx">transferObject</span><span class="p">.</span><span class="nx">subscribeForTransferErrors</span><span class="p">(</span><span class="nx">transferErrors</span><span class="p">);</span>
+<span class="nx">transferObject</span><span class="p">.</span><span class="nx">subscribeForBasicEvents</span><span class="p">(</span><span class="nx">transferEvents</span><span class="p">);</span>
+<span class="nx">transferObject</span><span class="p">.</span><span class="nx">subscribeForTransferProgress</span><span class="p">(</span><span class="nx">transferProgressCallback</span><span class="p">);</span>
+<span class="c1">//setup the storage config options to upload to the right S3 bucket</span>
+<span class="nx">transferObject</span><span class="p">.</span><span class="nx">setStorageConfig</span><span class="p">(</span><span class="s1">'{"access-key":"'</span><span class="o">+</span><span class="nx">YOUR_S3_ACCESS_KEY</span><span class="o">+</span><span class="s1">'", "secret-key":"'</span><span class="o">+</span><span class="nx">YOUR_S3_SECRET</span><span class="o">+</span><span class="s1">'", "bucket":"'</span><span class="o">+</span><span class="nx">YOUR_S3_BUCKET</span><span class="o">+</span><span class="s1">'"}'</span><span class="p">);</span>
+<span class="p">}</span> 
+<span class="c1">//send the server the API key</span>
+<span class="nx">transferObject</span><span class="p">.</span><span class="nx">setApiKey</span><span class="p">(</span><span class="nx">YOUR_API_KEY</span><span class="p">);</span> <span class="c1">//get an API key from </span>
+<span class="nx">transferObject</span><span class="p">.</span><span class="nx">setProbeLB</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span> <span class="c1">//always set to true for Flight</span>
+</code></pre>
+</div>
+
+<h1 id="methods">Methods</h1>
+
+<h2 id="clearfiles">clearFiles</h2>
+<p>This will clear the files/folders specified in the filesArray parameter, from the list of files to be uploaded. The files/folders must be specified using their full paths in the filesArray parameter. An exception is thrown if the filesArray parameter is undefined or datatype of filesArray is not an Array.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">transferObject</span><span class="p">.</span><span class="nx">clearFiles</span><span class="p">(</span><span class="nx">filesArray</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<h2 id="clearallfiles">clearAllFiles</h2>
+<p>Clears all the files from the list of files to be uploaded.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">transferObject</span><span class="p">.</span><span class="nx">clearAllFiles</span><span class="p">();</span>
+</code></pre>
+</div>
+
+<h2 id="chooseuploadfiles">chooseUploadFiles</h2>
+<p>This function launches the platform-specific file-chooser so that the user can select the files/folders to be uploaded.  Once the user has selected the desired files/folders the callbackFunction is invoked. If the user did not select any files/folders, the callbackFunc is not invoked.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">transferObject</span><span class="p">.</span><span class="nx">chooseUploadFiles</span><span class="p">(</span><span class="nx">callbackFunction</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>returns</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>callbackFunction(eventType,selectedFiles)
+</code></pre>
+</div>
+
+<p>selectedFiles is a JSON array of objects</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span> 
+  <span class="s2">"name"</span><span class="err">:</span><span class="s2">"upload.txt"</span><span class="p">,</span>
+  <span class="s2">"path"</span><span class="err">:</span><span class="s2">"/tmp/upload.txt"</span><span class="p">,</span>
+  <span class="s2">"isDirectory"</span><span class="err">:</span><span class="s2">"false"</span><span class="p">,</span>
+  <span class="s2">"size"</span><span class="err">:</span><span class="s2">"10190"</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="setfilestoupload">setFilesToUpload</h2>
+<p>Starts the upload of the specified files/folders to the destination server.  If the specified API key is not valid, or if the Signiant App is not installed, an exception is thrown. This function simply notifies the Signiant App to begin the transfer, and then returns. Further notifications related to the state/progress of the transfer can be retrieved by registering event listeners with the subscribeForBasicEvents and subscribeForTransferProgress functions.</p>
+
+</div>
+
+    </div>
+
+  </body>
+</html>
