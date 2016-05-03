@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Media Shuttle Portal &middot; Signiant Developer
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          Signiant Developer
+        </a>
+      </h1>
+      <p class="lead">The Signiant Developer Website</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Home</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/tapi/v2/download">Download</a>
+          
+        
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item active" href="/mediashuttle/v1.1/portal">Media Shuttle Portal</a>
+          
+        
+      
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/tapi/v2/transfer">Transfer</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/tapi/v2/upload">Upload</a>
+          
+        
+      
+
+      <span class="sidebar-nav-item">Currently v2.5.2</span>
+    </nav>
+
+    <p>&copy; 2016. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="page">
+  <h1 class="page-title">Media Shuttle Portal</h1>
+  <h2 id="portalportalprefix">portal/{portalprefix}</h2>
+
+<pre><code class="language-HTTP">GET /1.1/portal/{portalurlprefix}?authToken={authTokenValue}
+</code></pre>
+<p>portalurlprefix - The URL prefix portion of the portal’s full URL. For example, for portal testportal.mediashuttle.com, the value of this parameter is testportal.</p>
+
+<p>Sample Response:</p>
+
+<pre><code class="language-JSON">{
+    "name": "Media Shuttle Portal",
+    "url": "media-shuttle-portal",
+    "maxFile": "2147483",
+    "maxFileUnits": "MB",
+    "maxStorage": "21474836480",
+    "maxStorageUnits": "GB",
+    "agent": {
+        "name": "portal-server.acme.com"
+    },
+    "manager": [
+      {
+        "name": "opsadmin@gmail.com",
+        "contact": "555-123-4567"
+      }, 
+      {
+        "name": "opsadmin2@hotmail.com",
+        "contact": "E-mail me only if it is urgent"
+      }
+    ],
+    "itSuspended": "false",
+    "opSuspended": "false",
+    "concurrentTransfers": "3",
+    "capability": "FULL",
+    "metrics": [
+      {
+          "name": "totalMembers",
+          "value": "4"
+      }, 
+      {
+          "name": "totalTransfers",
+          "value": "103"
+      }, 
+      {
+          "name": "avgFileSize",
+          "value": "15565457"
+      }, 
+      {
+          "name": "avgTransferRate",
+          "value": "70828383"
+      }, 
+      {
+          "name": "senderMembers",
+          "value": "0"
+      }, 
+      {
+          "name": "receiverMembers",
+          "value": "0"
+      }, 
+      {
+          "name": "transfersPerWeek",
+  "value": "2012-10-01T00:00:00.000=14,2012-10- 15T00:00:00.000=74,2012-11-05T00:00:00.000=2,2012-11-12T00:00:00.000=13"
+      }, 
+      {
+          "name": "storageUtilized",
+          "value": "18135786040"
+      }, 
+      {
+          "name": "peakStorage",
+          "value": "18135786040"
+      }, 
+      {
+          "name": "peakStorageTime", 
+          "value": "2012-11-13T20:23:18.726"
+      }, 
+      {
+          "name": "capacityStatus",
+          "value": "GREEN"
+      }, 
+      {
+          "name": "daysToExpire",
+          "value": "128"
+      }
+    ],
+    "callbackHost": "portal- server.acme.com/signiant_mediashuttle_cloud_connector/spring/rest/cc",
+    "createdOn": "2012-09-27T21:40:59.456", "contentDelivery": "USER",
+    "roles": [
+      {
+        "portalId": "aa123f04d-1234-1234-1234-1212121212121", "role": "DELIVER_TO_USERS",
+        "roleType": "DELIVER_TO_USERS",
+      }
+    ], 
+}
+</code></pre>
+
+<h2 id="portalportalprefixportalinfo">portal/{portalprefix}/portalInfo</h2>
+
+<pre><code class="language-HTTP">GET /1.1/portal/{portalurlprefix}/portalInfo?authToken={authTokenValue}
+</code></pre>
+<p>portalurlprefix - The URL prefix portion of the portal’s full URL. For example, for portal testportal.mediashuttle.com, the value of this parameter is testportal.</p>
+
+<p>Sample Response:</p>
+
+<pre><code class="language-JSON">{
+    "name": "Media Shuttle Portal",
+    "url": "media-shuttle-portal",
+    "maxFile": "2147483",
+    "maxFileUnits": "MB",
+    "maxStorage": "119185342464",
+    "maxStorageUnits": "GB",
+    "itSuspended": "false",
+    "opSuspended": "false",
+    "concurrentTransfers": "0",
+    "capability": "FULL",
+    "callbackHost": "portal-
+server.acme.com/signiant_mediashuttle_cloud_connector/spring/rest/cc", 
+    "createdOn": "2012-08-07T18:48:33.239",
+    "contentDelivery": "USER"
+}
+</code></pre>
+
+<h2 id="portalportalprefixcloudconnectorstatus">portal/{portalprefix}/cloudConnectorStatus</h2>
+
+<pre><code class="language-HTTP">GET /1.1/portal/{portalurlprefix}/cloudConnectorStatus?authToken={authTokenValue}
+</code></pre>
+
+<p>Success Response:</p>
+
+<pre><code class="language-JSON">{
+    "result": "SUCCESS",
+    "resultCode": "1.0"
+}
+</code></pre>
+
+<p>If the IT infrastructure cannot be reached then the following is returned:</p>
+
+<pre><code class="language-JSON">{
+    "result": "FAILURE"
+}
+</code></pre>
+
+</div>
+
+    </div>
+
+  </body>
+</html>

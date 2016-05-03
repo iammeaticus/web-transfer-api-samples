@@ -67,6 +67,12 @@
         
       
         
+          
+            <a class="sidebar-nav-item" href="/mediashuttle/v1.1/portal">Media Shuttle Portal</a>
+          
+        
+      
+        
       
         
           
@@ -117,16 +123,16 @@
 
 <span class="c1">//open the file picker so the user selects where to save the file.</span>
 <span class="nx">download</span><span class="p">.</span><span class="nx">chooseDownloadFolder</span><span class="p">(</span> <span class="kd">function</span><span class="p">(</span><span class="nx">message</span><span class="p">,</span> <span class="nx">folder</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">//set the download folder to what they set</span>
-    <span class="nx">download</span><span class="p">.</span><span class="nx">setDownloadFolder</span><span class="p">(</span><span class="nx">folder</span><span class="p">);</span>
-    <span class="c1">//double check that we actually set the files by calling getFiles on the download object instead of using the fileName that as passed</span>
-    <span class="nx">selectedFiles</span> <span class="o">=</span> <span class="nx">download</span><span class="p">.</span><span class="nx">getFiles</span><span class="p">();</span> 
-    <span class="k">if</span> <span class="p">(</span><span class="nx">selectedFiles</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="nx">alert</span><span class="p">(</span><span class="s2">"No files Selected for Download"</span><span class="p">);</span>
-      <span class="k">else</span><span class="p">{</span>
-        <span class="c1">//do the download</span>
-        <span class="nx">download</span><span class="p">.</span><span class="nx">startDownload</span><span class="p">();</span>
-    <span class="p">}</span>
+  <span class="c1">//set the download folder to what they set</span>
+  <span class="nx">download</span><span class="p">.</span><span class="nx">setDownloadFolder</span><span class="p">(</span><span class="nx">folder</span><span class="p">);</span>
+  <span class="c1">//double check that we actually set the files by calling getFiles on the download object instead of using the fileName that as passed</span>
+  <span class="nx">selectedFiles</span> <span class="o">=</span> <span class="nx">download</span><span class="p">.</span><span class="nx">getFiles</span><span class="p">();</span> 
+  <span class="k">if</span> <span class="p">(</span><span class="nx">selectedFiles</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s2">"No files Selected for Download"</span><span class="p">);</span>
+  <span class="k">else</span><span class="p">{</span>
+    <span class="c1">//do the download</span>
+    <span class="nx">download</span><span class="p">.</span><span class="nx">startDownload</span><span class="p">();</span>
+  <span class="p">}</span>
 <span class="p">});</span>
 </code></pre>
 </div>

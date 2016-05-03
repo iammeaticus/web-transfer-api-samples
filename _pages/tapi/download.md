@@ -30,16 +30,16 @@ download.subscribeForTransferProgress(transferProgressCallback);
 
 //open the file picker so the user selects where to save the file.
 download.chooseDownloadFolder( function(message, folder) {
-    //set the download folder to what they set
-    download.setDownloadFolder(folder);
-    //double check that we actually set the files by calling getFiles on the download object instead of using the fileName that as passed
-    selectedFiles = download.getFiles(); 
-    if (selectedFiles.length == 0)
-        alert("No files Selected for Download");
-      else{
-        //do the download
-        download.startDownload();
-    }
+  //set the download folder to what they set
+  download.setDownloadFolder(folder);
+  //double check that we actually set the files by calling getFiles on the download object instead of using the fileName that as passed
+  selectedFiles = download.getFiles(); 
+  if (selectedFiles.length == 0)
+    alert("No files Selected for Download");
+  else{
+    //do the download
+    download.startDownload();
+  }
 });
 ```
 
