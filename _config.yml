@@ -1,0 +1,25 @@
+# Dependencies
+#markdown:         kramdown
+#highlighter:      rouge
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            Signiant Developer
+tagline:          ''
+description:      'The Signiant Developer Website'
+url:              http://developer.signiant.com
+baseurl:          /
+
+author:
+  name:           'Signiant'
+  url:            https://twitter.com/signiant
+
+# Custom vars
+version:          2.5.2
+
+github:
+  repo:           https://github.com/Signiant
+  
+include: ['_pages']
