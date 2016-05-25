@@ -87,7 +87,11 @@ THE SOFTWARE.
         		networkConnectivityRestoredCallback: networkConnectivityRestoredCallback
         	});
           
-            Signiant.Mst.initialize(initializeUploadObject, failureCallback);	
+          Signiant.Mst.initialize(initializeUploadObject, failureCallback, {
+            timeout: 1000, // how long initialize will take to timeout, default: 1 second
+            withAppTimeout: 5000, // how long initialize will take to timeout if we have detected cookie that signals the app is intalled, default: 5 seconds
+            failPreemptivelyIfAppNotInstalled: true // call error right away if cookie not present, default: true
+          });	
         }
       
         /**
