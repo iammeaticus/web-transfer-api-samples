@@ -70,7 +70,7 @@ THE SOFTWARE.
         var destinationFolderPath = ''; //(optional) String: Path you want the file to go into (ie. folder1/folder2/)
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>  
-    <script src='https://updates.signiant.com/javascript-api/2.5.2/transferapi.min.js' type='text/javascript'></script>
+    <script src='https://updates.signiant.com/javascript-api/2.5.3/transferapi.min.js' type='text/javascript'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js" type="text/javascript"></script>    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/foggy/1.1.1/jquery.foggy.min.js" type="text/javascript"></script>
     <script src="https://cdn.imnjb.me/libs/humanize/0.0.9/humanize.min.js" type="text/javascript"></script>
@@ -110,7 +110,11 @@ THE SOFTWARE.
          * @return null
         */
         var failureCallback = function () {
-            var installWidget = new Signiant.Mst.SigAppInstallWidget('mainContent');
+            /* Launch the Signiant installer widget into the 'mainContent' div. */
+            var installWidget = new Signiant.Mst.SigAppInstallWidget('mainContent', {
+              dismissInstallAppCallback: checkForSigniant.bind(self, 'false'), //called when the user clicks "I have the app" in the install widget
+              installAppCompleteCallback: initializeUploadObject //called when the app install is verified 
+            });
             installWidget.showInstallerWindow(); 
         }
 
@@ -120,7 +124,7 @@ THE SOFTWARE.
          * 
          * @return null
         */
-        function checkForSigniant() {
+        function checkForSigniant(failQuick) {
 		  console.log("Check for Signiant App");
 		  Signiant.Mst.configure({
             networkConnectivityErrorCallback: networkConnectivityErrorCallback,
@@ -128,13 +132,30 @@ THE SOFTWARE.
             networkConnectivityRestoredCallback: networkConnectivityRestoredCallback
           });
           
+          /* 
+          You can call detectPlugin or the Signiant.Mst.initialize method below.
+          detectPlugin provides default functionality that is easier to implement.
+          Signiant.Mst.initialize allows you to override what happens if the app is not loaded (failureCallback)
+          */
+          detectPlugin({success:initializeUploadObject, error:appNotLoaded});
+          
+          /*
           Signiant.Mst.initialize(initializeUploadObject, failureCallback, {
-            timeout: 1000, // how long initialize will take to timeout, default: 1 second
-            withAppTimeout: 5000, // how long initialize will take to timeout if we have detected cookie that signals the app is intalled, default: 5 seconds
-            failPreemptivelyIfAppNotInstalled: true // call error right away if cookie not present, default: true
-          });	
+            timeout: 10000, // how long initialize will take to timeout, default: 1 second
+            withAppTimeout: 20000, // how long initialize will take to timeout if we have detected cookie that signals the app is intalled, default: 5 seconds
+            failPreemptivelyIfAppNotInstalled: failQuick // call error right away if cookie not present, default: true
+          });
+          */
         }
       
+        /**
+         * The Signiant App couldn't be loaded - display an error message
+         *
+         * @return null
+        */
+        function appNotLoaded(){
+			alert("Signiant App Failed to load. This demo will not work.");
+		}
         /**
          * Setup the upload object - the global var transferObject
          *
@@ -448,7 +469,7 @@ THE SOFTWARE.
         
         $(document).ready(function(){
 		  //does the Signiant App exist?
-          checkForSigniant(); 
+          checkForSigniant(true); 
           //set the S3 region (required for S3)
           AWS.config.region = amazonS3Region; 
 		  AWS.config.update({accessKeyId: amazonS3Key, secretAccessKey: amazonS3Secret});
