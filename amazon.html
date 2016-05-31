@@ -162,93 +162,93 @@ THE SOFTWARE.
          * @return null
         */
         function initializeUploadObject(){
-			//update the bucket display to show the items currently in the bucket.  
-            updateBucket(); 
-          
-            //create a new upload Object
-            transferObject = new Signiant.Mst.Upload();
-            //set the default server
-			transferObject.setServer(defaultServer);
-            //the following methods are self explanatory
-			transferObject.subscribeForTransferErrors(transferErrors);
-			transferObject.subscribeForBasicEvents(transferEvents);
-            transferObject.subscribeForTransferProgress(transferProgressCallback);
-			//setup the storage config options to upload to the right S3 bucket
-            if(configId){ 
-              transferObject.setStorageConfig('{"configId":"'+configId+'", "signature":"'+globalSignature+'"}');
-            } else {
-              transferObject.setStorageConfig('{"access-key":"'+amazonS3Key+'", "secret-key":"'+amazonS3Secret+'", "bucket":"'+amazonS3Bucket+'"}');
-            } 
-            //send the server the API key
-            transferObject.setApiKey(apiKey); //required
-            transferObject.setProbeLB(true); //always set to true for Flight
+          //update the bucket display to show the items currently in the bucket.  
+          updateBucket(); 
+
+          //create a new upload Object
+          transferObject = new Signiant.Mst.Upload();
+                      //set the default server
+          transferObject.setServer(defaultServer);
+          //the following methods are self explanatory
+          transferObject.subscribeForTransferErrors(transferErrors);
+          transferObject.subscribeForBasicEvents(transferEvents);
+          transferObject.subscribeForTransferProgress(transferProgressCallback);
+          //setup the storage config options to upload to the right S3 bucket
+          if(configId){ 
+            transferObject.setStorageConfig('{"configId":"'+configId+'", "signature":"'+globalSignature+'"}');
+          } else {
+            transferObject.setStorageConfig('{"access-key":"'+amazonS3Key+'", "secret-key":"'+amazonS3Secret+'", "bucket":"'+amazonS3Bucket+'"}');
+          } 
+          //send the server the API key
+          transferObject.setApiKey(apiKey); //required
+          transferObject.setProbeLB(true); //always set to true for Flight
         }
         
         // This will be called when the Transfer API detects network loss (will not throw if only changing networks)
 		// The Signiant App should recover and continue transfer if network timeout is < 1 minute
 		function networkConnectivityErrorCallback () {
-			console.log("Network Connectivity Loss Detected");
-			alert("Network Loss Detected, Waiting for Restore");
+          console.log("Network Connectivity Loss Detected");
+          alert("Network Loss Detected, Waiting for Restore");
 		}
 
 		// This will be called when the Transfer API detects network connectivity is restored
 		// The Signiant App should recover and continue transfer
 		function networkConnectivityRestoredCallback () {
-			console.log("Network Connectivity Restored");
-			alert("Network Connectivity Restored");
-			if ( transferObject === 'undefined' ){
-				alert("transfer object undefined")
-			} else {
-				if ( transferObject.currentTransferState == Signiant.Mst.transferState.TRANSFERRING ){
-					alert("state == TRANSFERRING")
-				} else {
-					alert("state != TRANSFERRING")
-				}
-			}
+          console.log("Network Connectivity Restored");
+          alert("Network Connectivity Restored");
+          if ( transferObject === 'undefined' ){
+              alert("transfer object undefined")
+          } else {
+              if ( transferObject.currentTransferState == Signiant.Mst.transferState.TRANSFERRING ){
+                  alert("state == TRANSFERRING")
+              } else {
+                  alert("state != TRANSFERRING")
+              }
+          }
 		}
 
 		// The Signiant App would have cancelled any running transfers if this callback is fired
 		function appCommunicationErrorCallback () {
-			console.log("Connection to Signiant App Lost");
-			alert("Your connection has been lost. Press launch application on the next dialog.")
-            reInitializeApp();
+          console.log("Connection to Signiant App Lost");
+          alert("Your connection has been lost. Press launch application on the next dialog.")
+          reInitializeApp();
 		}
 
 		/* Called in response to success initialize on Signiant.mst.initialize */
         function reIntializeSuccess() {
-			console.log("Connection to Signiant App Re-established");
-			alert("Connection to Signiant App Re-established");
-			if ( transferObject !== 'undefined' ){
-				console.log("Checking to restart transfer");
-				// check and see if transfer was running, if so restart transfer
-				// we could send a cancel as well at this point to ensure the previous transfer was cancelled
-				// but Signiant App will cancel transfers when communication with Browser lost for significant period of time
-				if ( transferObject.currentTransferState == Signiant.Mst.transferState.TRANSFERRING ){
-					console.log("Restarting Transfer");
-					alert("Restarting Transfer in Progress");
-					// Set back to IDLE, pending this being tracked in Transfer API
-					transferObject.currentTransferState = Signiant.Mst.transferState.IDLE;
-					transferObject.startUpload();
-				}
-			}
+          console.log("Connection to Signiant App Re-established");
+          alert("Connection to Signiant App Re-established");
+          if ( transferObject !== 'undefined' ){
+              console.log("Checking to restart transfer");
+              // check and see if transfer was running, if so restart transfer
+              // we could send a cancel as well at this point to ensure the previous transfer was cancelled
+              // but Signiant App will cancel transfers when communication with Browser lost for significant period of time
+              if ( transferObject.currentTransferState == Signiant.Mst.transferState.TRANSFERRING ){
+                  console.log("Restarting Transfer");
+                  alert("Restarting Transfer in Progress");
+                  // Set back to IDLE, pending this being tracked in Transfer API
+                  transferObject.currentTransferState = Signiant.Mst.transferState.IDLE;
+                  transferObject.startUpload();
+              }
+          }
 		}
 		
         /* Called in response to failure to initialize on Signiant.mst.initialize */
 		function reInitializeFailure() {
-			console.log("Re-Initialize Signiant App Failed, retrying");
-			alert("Signiant App Connection Lost, Retrying...");
-			reInitializeApp();
+          console.log("Re-Initialize Signiant App Failed, retrying");
+          alert("Signiant App Connection Lost, Retrying...");
+          reInitializeApp();
 		}		
 
 		/* Timeout is time to wait for app to respond to new session request. We suggest 20 seconds, but you may want to lower this. If the timer completes and no message is received, reInitializeFailure will fire  */
 		function reInitializeApp() {
-			console.log("Attempt Re Initialize Connection to Signiant");
-			var options = { "timeout" : 20000 };
-			Signiant.Mst.initialize(reIntializeSuccess, reInitializeFailure, options);
+          console.log("Attempt Re Initialize Connection to Signiant");
+          var options = { "timeout" : 20000 };
+          Signiant.Mst.initialize(reIntializeSuccess, reInitializeFailure, options);
 		}
 
 		function appErrorFailure(){
-			alert("Transfer API Failed to load. Transfer Services will not be available.");
+          alert("Transfer API Failed to load. Transfer Services will not be available.");
 		}
 
 		
@@ -271,27 +271,27 @@ THE SOFTWARE.
          * @return null
         */
         var callbackUpload = function(event,selectedFiles) {
-            if(configId) { 
-              transferObject.setStorageConfig('{"configId":"'+configId+'", "signature":"'+globalSignature+'"}');
-            }
-            var filesArray = new Array();
-            for (var i = 0; i < selectedFiles.length; i++) {
-                filesArray.push(selectedFiles[i].path);
-            }
-            //set the files to upload on the transfer object
-            transferObject.setFilesToUpload(filesArray);
-            //optionally set the subfolder for the files to go into (eg. "/folder1/folder2/folder3")
-            transferObject.setSubFolder(destinationFolderPath);
-            
-            //optionally rename the file when it is uploaded.
-            //transferObject.setTargetFileName(destinationFolderPath);
-            //start the upload
-            transferObject.startUpload();
-            properties = transferObject.getTransferProperties();
-            //modify the UI
-            $("#contentUploadText").html("Starting upload...");
-            $("#contentListing").fadeTo(1000, 0.3);
-            $("#contentUpload").on('click', cancelTransfer);
+          if(configId) { 
+            transferObject.setStorageConfig('{"configId":"'+configId+'", "signature":"'+globalSignature+'"}');
+          }
+          var filesArray = new Array();
+          for (var i = 0; i < selectedFiles.length; i++) {
+              filesArray.push(selectedFiles[i].path);
+          }
+          //set the files to upload on the transfer object
+          transferObject.setFilesToUpload(filesArray);
+          //optionally set the subfolder for the files to go into (eg. "/folder1/folder2/folder3")
+          transferObject.setSubFolder(destinationFolderPath);
+
+          //optionally rename the file when it is uploaded.
+          //transferObject.setTargetFileName(destinationFolderPath);
+          //start the upload
+          transferObject.startUpload();
+          properties = transferObject.getTransferProperties();
+          //modify the UI
+          $("#contentUploadText").html("Starting upload...");
+          $("#contentListing").fadeTo(1000, 0.3);
+          $("#contentUpload").on('click', cancelTransfer);
         }
         
         /**
@@ -301,8 +301,8 @@ THE SOFTWARE.
         */
         function transferProgressCallback(transferObject, numBytesSent, numBytesTotal, estimatedTimeRemaining) {
             
-            var percent = Math.round((numBytesSent/numBytesTotal)*100);
-            $("#contentUploadText").html(percent+"% completed.<p>Completes in about "+moment.duration(estimatedTimeRemaining*1000).humanize()+"</p>");
+          var percent = Math.round((numBytesSent/numBytesTotal)*100);
+          $("#contentUploadText").html(percent+"% completed.<p>Completes in about "+moment.duration(estimatedTimeRemaining*1000).humanize()+"</p>");
         }
 
         /**
@@ -311,7 +311,7 @@ THE SOFTWARE.
          * @return null
         */
         function transferErrors (transferObject, eventCode, eventMsg, propertyName){
-			console.log("Sample Upload Transfer Error " + eventCode + ", " + eventMsg);
+          console.log("Sample Upload Transfer Error " + eventCode + ", " + eventMsg);
 		}
 
 		/**
@@ -320,31 +320,31 @@ THE SOFTWARE.
          * @return null
         */
         function transferEvents ( transferObject, eventCode, eventMsg, eventData ) {
-			console.log("Sample Upload Transfer Event " + eventCode + ", " + eventMsg);
-			var message = eventMsg;			
-			switch(eventCode) {
-              case "TRANSFER_STARTED":
-                $("#uploadFileChooser").attr("class","icon-completed");
-              break;
-                
-              case "TRANSFER_CANCEL_EVENT":
-              case "TRANSFER_COMPLETED":
-                transferObject.clearAllFiles();
-                setTimeout(function() {updateBucket()},900); 
-              break;
+          console.log("Sample Upload Transfer Event " + eventCode + ", " + eventMsg);
+          var message = eventMsg;			
+          switch(eventCode) {
+            case "TRANSFER_STARTED":
+              $("#uploadFileChooser").attr("class","icon-completed");
+            break;
 
-              case "TRANSFER_ERROR_EVENT":
-                transferObject.clearAllFiles();
-                $("#contentUploadText").html("Upload something...");
-                $("#uploadFileChooser").attr("class","icon-add");
-                $("#contentListing").fadeTo(1000, 1);
-                $("#contentUpload").unbind('click');
-                $("#contentUpload").click(chooseFiles);
-              break;
-                
-              default:
-                return
-            }
+            case "TRANSFER_CANCEL_EVENT":
+            case "TRANSFER_COMPLETED":
+              transferObject.clearAllFiles();
+              setTimeout(function() {updateBucket()},900); 
+            break;
+
+            case "TRANSFER_ERROR_EVENT":
+              transferObject.clearAllFiles();
+              $("#contentUploadText").html("Upload something...");
+              $("#uploadFileChooser").attr("class","icon-add");
+              $("#contentListing").fadeTo(1000, 1);
+              $("#contentUpload").unbind('click');
+              $("#contentUpload").click(chooseFiles);
+            break;
+
+            default:
+              return
+          }
 		}
 
 		/**
@@ -353,14 +353,14 @@ THE SOFTWARE.
          * @return null
         */
         function cancelTransfer() {
-			$("#contentUploadText").html("Cancelling upload<p>This will take a few seconds.");
-            console.log("Cancel Upload files");
-			try {
-				transferObject.cancel();
-            } catch (exception) {
-				console.log("Exception in Cancel Upload Files");
-				console.log(exception);
-			}
+          $("#contentUploadText").html("Cancelling upload<p>This will take a few seconds.");
+          console.log("Cancel Upload files");
+          try {
+              transferObject.cancel();
+          } catch (exception) {
+              console.log("Exception in Cancel Upload Files");
+              console.log(exception);
+          }
 		}
         
         /**
@@ -390,16 +390,16 @@ THE SOFTWARE.
 			
           //open the file picker so the user selects where to save the file.
           download.chooseDownloadFolder( function(message, folder) {
-              //set the download folder to what they set
-              download.setDownloadFolder(folder);
-              //double check that we actually set the files by calling getFiles on the download object instead of using the fileName that as passed
-              selectedFiles = download.getFiles(); 
-              if (selectedFiles.length == 0)
-                  alert("No files Selected for Download");
-                else{
-                  //do the download
-                  download.startDownload();
-              }
+            //set the download folder to what they set
+            download.setDownloadFolder(folder);
+            //double check that we actually set the files by calling getFiles on the download object instead of using the fileName that as passed
+            selectedFiles = download.getFiles(); 
+            if (selectedFiles.length == 0)
+              alert("No files Selected for Download");
+            else{
+              //do the download
+              download.startDownload();
+            }
           });
         }
 
@@ -410,55 +410,55 @@ THE SOFTWARE.
          * @return null
         */
         function updateBucket(prefixToUse) {
-            var thisPrefix = typeof prefixToUse !== 'undefined' ? prefixToUse : "";
-            
-            //upload into the currently selected directory
-            destinationFolderPath = thisPrefix;
-                      
-            var textToAppend = "";
-                                
-            $("#refreshIcon").addClass("fa-spin");
-            $('#objects').children().fadeOut(500).promise().then(function() {
-                $("#contentUpload").unbind('click');
-                $("#contentUpload").click(chooseFiles);
-                var bucket = new AWS.S3({params: {Bucket: amazonS3Bucket}});
-                bucket.listObjects({Delimiter: "/", Prefix: thisPrefix}, function (err, data) {
-                    if (err) {
-                        document.getElementById('objects').innerHTML =
-                        'Could not load objects from cloud storage. Check your credentials and <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">ensure CORS is setup properly</a>. Error was <i>'+err+'</i>';
-                    } else {
-                        data.Contents.sort();
-                        $("#objects").fadeOut(500).promise().then(function() {
-                            $("#objects").empty();
-                            if( data.Contents.length == 0) {
-                                $("#objects").html("No files in cloud storage right now. Why not upload one?");
-                            }
-                            
-                            if( thisPrefix != "" ) {
-                              textToAppend = '<div class="row"><div class="cell"><i class="fa fa-folder-o"></i></div><div class="cell"><a href=# onclick="updateBucket(\'\')">< To Bucket Top</a></div></div>';
-                            }
-                          
-                            for (var i = 0; i < data.CommonPrefixes.length; i++) {
-                                textToAppend += '<div class="row"><div class="cell"><i class="fa fa-folder-o"></i></div><div class="cell"><a href=# onclick="downloadFile(\''+data.CommonPrefixes[i].Prefix+'\')">'+data.CommonPrefixes[i].Prefix+'</a></div></div>';
-                            }
-                            
-                            for (var i = 0; i < data.Contents.length; i++) {
-                                textToAppend += '<div class="row"><div class="cell"><i class="fa fa-file-o"></i></a></div>';
-                                textToAppend += '<div class="cell"><a href=# onclick="downloadFile(\''+data.Contents[i].Key+'\')">'+data.Contents[i].Key.substr(thisPrefix.length)+'</a></div><div class="cell"><span class="date">' + moment(data.Contents[i].LastModified).format("YYYY-MM-DD HH:mm")+'</span></div><div class="cell"><span class="date">' + humanize.filesize(data.Contents[i].Size) +'</span></div></div>'
-                                
-                            }
-                            $("#objects").append(textToAppend);
-                            
-                            $("#objects").fadeIn(500).promise().then(function() {
-                                $("#refreshIcon").removeClass("fa-spin");
-                                $("#contentListing").fadeTo(1000, 1);
-                                $("#contentUploadText").html("Upload something...");
-                                $("#uploadFileChooser").attr("class","icon-add");
-                            });   
-                        });
-                    }
+          var thisPrefix = typeof prefixToUse !== 'undefined' ? prefixToUse : "";
+
+          //upload into the currently selected directory
+          destinationFolderPath = thisPrefix;
+
+          var textToAppend = "";
+
+          $("#refreshIcon").addClass("fa-spin");
+          $('#objects').children().fadeOut(500).promise().then(function() {
+            $("#contentUpload").unbind('click');
+            $("#contentUpload").click(chooseFiles);
+            var bucket = new AWS.S3({params: {Bucket: amazonS3Bucket}});
+            bucket.listObjects({Delimiter: "/", Prefix: thisPrefix}, function (err, data) {
+              if (err) {
+                  document.getElementById('objects').innerHTML =
+                  'Could not load objects from cloud storage. Check your credentials and <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">ensure CORS is setup properly</a>. Error was <i>'+err+'</i>';
+              } else {
+                data.Contents.sort();
+                $("#objects").fadeOut(500).promise().then(function() {
+                  $("#objects").empty();
+                  if( data.Contents.length == 0) {
+                    $("#objects").html("No files in cloud storage right now. Why not upload one?");
+                  }
+
+                  if( thisPrefix != "" ) {
+                    textToAppend = '<div class="row"><div class="cell"><i class="fa fa-folder-o"></i></div><div class="cell"><a href=# onclick="updateBucket(\'\')">< To Bucket Top</a></div></div>';
+                  }
+
+                  for (var i = 0; i < data.CommonPrefixes.length; i++) {
+                    textToAppend += '<div class="row"><div class="cell"><i class="fa fa-folder-o"></i></div><div class="cell"><a href=# onclick="downloadFile(\''+data.CommonPrefixes[i].Prefix+'\')">'+data.CommonPrefixes[i].Prefix+'</a></div></div>';
+                  }
+
+                  for (var i = 0; i < data.Contents.length; i++) {
+                    textToAppend += '<div class="row"><div class="cell"><i class="fa fa-file-o"></i></a></div>';
+                    textToAppend += '<div class="cell"><a href=# onclick="downloadFile(\''+data.Contents[i].Key+'\')">'+data.Contents[i].Key.substr(thisPrefix.length)+'</a></div><div class="cell"><span class="date">' + moment(data.Contents[i].LastModified).format("YYYY-MM-DD HH:mm")+'</span></div><div class="cell"><span class="date">' + humanize.filesize(data.Contents[i].Size) +'</span></div></div>'
+
+                  }
+                  $("#objects").append(textToAppend);
+
+                  $("#objects").fadeIn(500).promise().then(function() {
+                    $("#refreshIcon").removeClass("fa-spin");
+                    $("#contentListing").fadeTo(1000, 1);
+                    $("#contentUploadText").html("Upload something...");
+                    $("#uploadFileChooser").attr("class","icon-add");
+                  });   
                 });
+              }
             });
+          });
         }
       
         /**
