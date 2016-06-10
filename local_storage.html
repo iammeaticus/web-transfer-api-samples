@@ -108,6 +108,15 @@ THE SOFTWARE.
         }
       
         /**
+         * The Signiant App couldn't be loaded - display an error message
+         *
+         * @return null
+        */
+        function appNotLoaded(){
+			alert("Signiant App Failed to load. This demo will not work.");
+		}
+        
+        /**
          * Setup the upload object - the global var transferObject
          *
          * @return null
