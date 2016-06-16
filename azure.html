@@ -93,8 +93,12 @@ THE SOFTWARE.
          * @return null
         */
         var failureCallback = function () {
-            var installWidget = new Signiant.Mst.SigAppInstallWidget('mainContent');
-            installWidget.showInstallerWindow(); 
+          /* Launch the Signiant installer widget into the 'mainContent' div. */
+          var installWidget = new Signiant.Mst.SigAppInstallWidget('mainContent', {
+            dismissInstallAppCallback: checkForSigniant.bind(self, 'false'), //called when the user clicks "I have the app" in the install widget
+            installAppCompleteCallback: initializeUploadObject //called when the app install is verified
+          });
+          installWidget.showInstallerWindow(); 
         }
 
 		/**
@@ -103,19 +107,28 @@ THE SOFTWARE.
          * 
          * @return null
         */
-        function checkForSigniant() {
+        function checkForSigniant(failQuick) {
 		  console.log("Check for Signiant App");
 		  Signiant.Mst.configure({
-        		networkConnectivityErrorCallback: networkConnectivityErrorCallback,
-        		appCommunicationErrorCallback: appCommunicationErrorCallback,
-        		networkConnectivityRestoredCallback: networkConnectivityRestoredCallback
-        	});
+            networkConnectivityErrorCallback: networkConnectivityErrorCallback,
+            appCommunicationErrorCallback: appCommunicationErrorCallback,
+            networkConnectivityRestoredCallback: networkConnectivityRestoredCallback
+          });
           
+          /* 
+          You can call detectPlugin or the Signiant.Mst.initialize method below.
+          detectPlugin provides default functionality that is easier to implement.
+          Signiant.Mst.initialize allows you to override what happens if the app is not loaded (failureCallback)
+          */
+          detectPlugin({success:initializeUploadObject, error:appNotLoaded});
+          
+          /*
           Signiant.Mst.initialize(initializeUploadObject, failureCallback, {
-            timeout: 1000, // how long initialize will take to timeout, default: 1 second
-            withAppTimeout: 5000, // how long initialize will take to timeout if we have detected cookie that signals the app is intalled, default: 5 seconds
-            failPreemptivelyIfAppNotInstalled: true // call error right away if cookie not present, default: true
-          });		
+            timeout: 10000, // how long initialize will take to timeout, default: 1 second
+            withAppTimeout: 20000, // how long initialize will take to timeout if we have detected cookie that signals the app is intalled, default: 5 seconds
+            failPreemptivelyIfAppNotInstalled: failQuick // call error right away if cookie not present, default: true
+          });
+          */		
         }
       
         /**
@@ -206,10 +219,15 @@ THE SOFTWARE.
 			Signiant.Mst.initialize(reIntializeSuccess, reInitializeFailure, options);
 		}
 
-		function appErrorFailure(){
-			alert("Transfer API Failed to load. Transfer Services will not be available.");
+		/**
+         * The Signiant App couldn't be loaded - display an error message
+         *
+         * @return null
+        */
+        function appNotLoaded(){
+			alert("Signiant App Failed to load. This demo will not work.");
 		}
-      
+        
         /**
          * Open the file selection dialog, and call callbackUpload when it closes.
          *
@@ -366,7 +384,7 @@ THE SOFTWARE.
         
         $(document).ready(function(){
 			//does the Signiant plugin exist?
-            checkForSigniant(); 
+            checkForSigniant(true); 
             //update the container display to show the items currently in the bucket.  
             resetUpload(); 
         });
