@@ -14,30 +14,23 @@ If you are transferring to cloud storage you can request one from http://info.si
 # API Documentation
 The JavaScript API.pdf file contains the API documentation for the Web Transfer API. Version 2 is nearly 100% backwards compatible to v1. 
 
-## Loading Transfer API Version 2
-Change 
+## Loading Transfer API
 
-`<script src="https://developer.mediashuttle.com/transfer/js" type="text/javascript" id="ms-api" api-key="INSERT_API_KEY_HERE"></script>` 
-
-to 
-
-`<script src="https://updates.signiant.com/javascript-api/2.5.2/transferapi.min.js" type="text/javascript"></script>`
-
-to use the version 2 web transfer API.
+`<script src="https://updates.signiant.com/javascript-api/2.5.3/transferapi.min.js" type="text/javascript"></script>`
 
 Transfer API widgets are referenced by:
 
-`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.5.2/widgets/download/mediashuttledownload.css"></link>`
+`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.5.3/widgets/download/mediashuttledownload.css"></link>`
 
-`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.5.2/widgets/transferProgress/mediashuttletransferprogress.css"></link>`
+`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.5.3/widgets/transferProgress/mediashuttletransferprogress.css"></link>`
 
-`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.5.2/widgets/draganddrop/mediashuttlednd.css"></link>`
+`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.5.3/widgets/draganddrop/mediashuttlednd.css"></link>`
 
-`<script src="https://updates.signiant.com/javascript-api/2.5.2/widgets/draganddrop/mediashuttlednd.js" type="text/javascript"></script>`
+`<script src="https://updates.signiant.com/javascript-api/2.5.3/widgets/draganddrop/mediashuttlednd.js" type="text/javascript"></script>`
 
-`<script src="https://updates.signiant.com/javascript-api/2.5.2/widgets/download/mediashuttledownload.js" type="text/javascript"></script>`
+`<script src="https://updates.signiant.com/javascript-api/2.5.3/widgets/download/mediashuttledownload.js" type="text/javascript"></script>`
 
-`<script src="https://updates.signiant.com/javascript-api/2.5.2/widgets/transferProgress/mediashuttletransferprogress.js" type="text/javascript"></script>`
+`<script src="https://updates.signiant.com/javascript-api/2.5.3/widgets/transferProgress/mediashuttletransferprogress.js" type="text/javascript"></script>`
 
 The API Key is now provided to the Transfer Object directly, rather than through the `<script>` tag. To specify an API key to use for a transfer call the following method on an Upload or Download object:
 
