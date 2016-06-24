@@ -30,7 +30,6 @@ THE SOFTWARE.
   Need help? Visit https://flight.support.signiant.com/
 -->
 <html><head>
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9,chrome=1,requiresActiveX=true" />
     <script type="text/javascript">
  	    /* SETUP 
         ** TRIALS: Get your API key from http://info.signiant.com/flight-Free-Trial_1.html and enter it on line 43 and 81. 
@@ -108,10 +107,11 @@ THE SOFTWARE.
          * @return null
         */
         function checkForPlugin() {
-			getSignature();
-            //regenerate the signature every 4 minutes (they expire every 5 minutes so this should be good)
-            setInterval(getSignature, (1000*60*4));
-			detectPlugin({success:initializeUploadObject, error:pluginNotLoaded});
+		  /* If you're using an API key with a secret, you will need to generate a signature */	
+          //getSignature();
+          //regenerate the signature every 4 minutes (they expire every 5 minutes so this should be good)
+          //setInterval(getSignature, (1000*60*4));
+          detectPlugin({success:initializeUploadObject, error:pluginNotLoaded});
 		}
 
 		/**
