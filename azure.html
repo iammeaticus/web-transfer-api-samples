@@ -66,7 +66,7 @@ THE SOFTWARE.
         
         /* When you generate an API key from https://manage.signiant.com you generate a "secret" as well. You need to use that secret to generate a signature on your server. */
         var signatureEndPoint = ""; //url that we go to retrieve a signature. 
-        var globalSignature = null; //secrets are only good for 5 minutes. You will need to refres the generation every 5 minutes.
+        var globalSignature = null; // JSON Web Token (JWT) calculated from server (see signature_generators folder for examples). Please note that secrets are only good for 5 minutes. You will need to refres the generation every 5 minutes.
           
         /* FILE DESTINATION 
         ** Change the folder path that the file will go into.
