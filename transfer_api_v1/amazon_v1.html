@@ -39,7 +39,7 @@ THE SOFTWARE.
         ** Check out azure.html for an example using Microsoft Azure.
         */
         var apiKey = ""; //NOTE YOU ALSO NEED TO ENTER YOUR API KEY ON LINE 81
-        var defaultServer = 'global-am.cloud.signiant.com'; //Amazon: global-am.cloud.signiant.com, Azure: global-az.cloud.signiant.com
+        var defaultServer = 'SET_THIS_TO_SERVER_CLOSEST_TO_STORAGE'; //See https://flight.support.signiant.com/customer/en/portal/articles/2173685-signiant-flight-server-locations for a list of server locations / names
       
         /* TRIALS 
         ** Trial users must use Amazon keys and secrets.
@@ -53,9 +53,9 @@ THE SOFTWARE.
         <CORSConfiguration><CORSRule><AllowedOrigin>*</AllowedOrigin><AllowedMethod>PUT</AllowedMethod><AllowedMethod>POST</AllowedMethod><AllowedMethod>GET</AllowedMethod><MaxAgeSeconds>3000</MaxAgeSeconds><AllowedHeader>*</AllowedHeader></CORSRule></CORSConfiguration>
         **
         */
-        var amazonS3Key = ""; //
-        var amazonS3Secret = ""; //
-        var amazonS3Bucket = ""; //
+        var amazonS3Key = ""; //AWS Key for transfers
+        var amazonS3Secret = ""; //AWS Secret for transfers
+        var amazonS3Bucket = ""; //Bucket for transfers
         var amazonS3Region = "us-east-1"; //set the region of the above bucket. Required only for listing files.
         
         /* FOR CUSTOMERS
