@@ -49,7 +49,7 @@ transferObject.setProperty('com.signiant.interactivetransfer.engine.api_key', 'Y
 that may be present in your code.
 
 # Changes
-### Transfer API v2.5.7 - September 23, 2017
+### Transfer API v2.5.7 - September 23, 2016
 * Resolve an issue with Safari 10 not launching the Signiant app
 
 ### Transfer API v2.5 - January 2016
