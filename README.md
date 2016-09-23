@@ -49,6 +49,9 @@ transferObject.setProperty('com.signiant.interactivetransfer.engine.api_key', 'Y
 that may be present in your code.
 
 # Changes
+### Transfer API v2.5.7 - September 23, 2017
+* Resolve an issue with Safari 10 not launching the Signiant app
+
 ### Transfer API v2.5 - January 2016
 * Drag and drop is now supported with the drag and drop widget. Improved error handling when the browser cannot communicate with the app.
 
