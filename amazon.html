@@ -462,19 +462,59 @@ THE SOFTWARE.
     }
       
     /**
+     * Checks ports and firewall settings
+     * 
+     * @return null
+    */
+    function checkPortsAndFirewall() {
+      checkPort('https://developer.mediashuttle.com:443', $('#signiant_license_status'));
+      checkPort('https://pubsub.pubnub.com/subscribe/demo/hello_world/0/0:443', $('#signiant_messaging_status'));
+      checkPort('http://portquiz.net:49221', $('#signiant_49221_status'))
+    }
+    
+    /**
+     * Checks ports and firewall settings
+     * 
+     * @return null
+    */
+    function checkPort(url, elementToUpdate) {
+      $.ajax({
+        url: url,
+        type: "get",
+        cache: false,
+        dataType: 'jsonp', // it is for supporting crossdomain
+        crossDomain : true,
+        asynchronous : false,
+        jsonpCallback: 'deadCode',
+        timeout : 1500, // set a timeout in milliseconds
+        complete : function(xhr, responseText, thrownError) {
+          if(xhr.status == "200") {
+           elementToUpdate.html("Success");
+          }
+          else {
+           elementToUpdate.html("Failure");
+          }
+        }
+     });
+    }
+    
+    /**
      * Runs when the document is fully loaded.
      * 
      * @return null
     */
 
     $(document).ready(function(){
+      //check ports and firewall settings
+      checkPortsAndFirewall();
       //does the Signiant App exist?
       checkForSigniant(true); 
       //set the S3 region (required for S3)
       AWS.config.region = amazonS3Region; 
       AWS.config.update({accessKeyId: amazonS3Key, secretAccessKey: amazonS3Secret});
-
     });
+    
+    
     </script>
 </head>
 
@@ -482,20 +522,30 @@ THE SOFTWARE.
 	<div class="header"><div class="icon-logo" style="width: 141px; height: 20px;" ></div> <div id="headerBackground"></div></div>	
     
     <div id="mainContent" class="content">
-		<div id="contentUpload">
-			<div id="uploadFileChooser" class="icon-add" style="width: 85px; height: 62px;margin: auto;margin-top: 115px;"></div>
-            <div id="contentUploadText">Loading Signiant App...</div>
-        </div>
+      <div id="contentUpload">
+        <div id="uploadFileChooser" class="icon-add" style="width: 85px; height: 62px;margin: auto;margin-top: 115px;"></div>
+        <div id="contentUploadText">Loading Signiant App...</div>
+      </div>
 
-        <div id="contentListing">
-            <i id="refreshIcon" class="fa fa-refresh fa-spin" onclick="updateBucket()"></i>
-                
-            <div id="objects">Loading files from cloud storage...</div> 
+      <div id="contentListing">
+        <i id="refreshIcon" class="fa fa-refresh fa-spin" onclick="updateBucket()"></i>
+
+        <div id="objects">Loading files from cloud storage...</div> 
+      </div>
+
+      <div id="status">
+        <h2>Ports and Firewall Settings</h2>
+          <div>License check: <span id="signiant_license_status"></span></div>
+          <div>Port 49221 for transfers: <span id="signiant_49221_status"></span> (Note this isn't going to Signiant transfer servers, so may not be 100% accurate.)</div>
+          <div>Signiant Messaging Service: <span id="signiant_messaging_status"></span></div>
+        <div>
+          
         </div>
+      </div>
     </div>
     
     <div class="footer">
-        &copy; 2015 Signiant.
+      &copy; 2015 Signiant.
     </div>
   
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -511,6 +561,7 @@ THE SOFTWARE.
     #contentListing{float:left;border:1px solid rgba(0,0,0,.3);border-radius:25px;width:40%;margin-left:25px;padding-top:35px;padding-bottom:70px;padding-left:30px;position:relative}
     #contentListing .fa-refresh{right:20px;top:20px;position:absolute}
     #objects{display:table;margin-top:10px;font-size:90%;width:100%}
+    #status{clear: left; padding-left: 20%; padding-top: 100px;}
     .row{width:100%;border:1px solid red;display:table-row;margin-top:10px;font-size:95%}
     .cell{display:table-cell;padding-top:10px}
     .cell A{text-decoration:none;color:#000}
