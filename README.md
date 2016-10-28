@@ -5,7 +5,7 @@ These samples to show how to integrate the Signiant Web Transfer API into a web 
 * Local storage on your network
 
 # Current Version
-The current version of the transfer API is 2.6.0. It was released on October 2th, 2016.
+The current version of the transfer API is 2.6.0.
 
 # API Key
 You will require an API key to transfer files. 
@@ -23,7 +23,7 @@ The JavaScript API.pdf file contains the API documentation for the Web Transfer 
 
 Transfer API widgets are referenced by:
 
-`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.5.7/widgets/download/mediashuttledownload.css"></link>`
+`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.6.0/widgets/download/mediashuttledownload.css"></link>`
 
 `<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.6.0/widgets/transferProgress/mediashuttletransferprogress.css"></link>`
 
@@ -52,9 +52,10 @@ transferObject.setProperty('com.signiant.interactivetransfer.engine.api_key', 'Y
 that may be present in your code.
 
 # Changes
-### Transfer API v2.6.0 - October 26, 2016
+### Transfer API v2.6.0 - October 27, 2016
+* Resolves an issue communicating with websites running HTTP 2.0.
 * You can pass in an ID or a DOM element to the install widget
-* Encrypting transfers is now possible with a new method (TBD)
+* Validates keys being set in encryption method
 
 ### Transfer API v2.5.7 - September 23, 2016
 * Resolve an issue with Safari 10 not launching the Signiant app
