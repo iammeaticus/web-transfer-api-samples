@@ -303,6 +303,11 @@ function downloadFile(fileName) {
   download.setFilePathHandlingMode(Signiant.Mst.Transfer.filePathModePath);
   download.setFileCollisionHandlingMode(Signiant.Mst.Transfer.fileCollisionModeVersion);
   //set the files to download to the file that is passed
+  //note that if you're downloading a directory, "fileName" can't end in a slash - make it just the directory name
+  if (fileName.substring(fileName.length-1) == "/")
+  {
+    fileName = fileName.substring(0, fileName.length-1);
+  }
   download.setFilesToDownload(new Array(fileName));
   download.subscribeForTransferErrors(transferErrors);
   download.subscribeForBasicEvents(transferEvents);
