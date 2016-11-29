@@ -54,10 +54,13 @@ var generateToken = function ( apiKey, configId, secret, audience) {
 */
 var buildClaims = function(apiKey, configId, audience)
 {
+    var inFiveMinutes = new Date();
+    inFiveMinutes.setMinutes(inFiveMinutes.getMinutes() + 5);
     var claims = new Object();
     claims.iss = apiKey;
     claims.cfg = configId;
     claims.aud = audience;
+    claims.exp = Math.round(inFiveMinutes.getTime()/1000);
     return claims;
 }
 
@@ -67,8 +70,7 @@ var buildClaims = function(apiKey, configId, audience)
 */
 var getOptions = function()
 {
-    return  { algorithm: 'HS256', expiresInMinutes: 5};
+    return  { algorithm: 'HS256' };
 }
-
 
 module.exports = generateToken;
