@@ -25,7 +25,7 @@
 var transferObject = null;
 
 // Set to false to use native HTTP for transfers; true to use Signiant App
-var useTransferSoftware = true;
+var useSigniantApp = true;
 
 /**
  * Callback for failure call of Signiant.Mst.initialize()
@@ -38,7 +38,7 @@ var failureCallback = function () {
     dismissInstallAppCallback: checkForSigniant.bind(self, 'false'), //called when the user clicks "I have the app" in the install widget
     installAppCompleteCallback: initializeUploadObject, //called when the app install is verified
     transferWithoutAppCallback: function () {
-      setUseTransferSoftware(false);
+      setUseSigniantApp(false);
       initializeUploadObject();
     }
   });
@@ -46,10 +46,10 @@ var failureCallback = function () {
 }
 
 /**
- * Set the global useTransferSoftware flag.
+ * Set the global useSigniantApp flag.
  */
-function setUseTransferSoftware(useSoftware) {
-    useTransferSoftware = useSoftware;
+function setUseSigniantApp(useApp) {
+    useSigniantApp = useApp;
 }
 
 /**
@@ -99,7 +99,7 @@ function initializeUploadObject(){
   updateBucket(); 
 
   //create a new upload Object
-  transferObject = useTransferSoftware ? new Signiant.Mst.Upload() : new Signiant.Mst.NoSoftware.Upload();
+  transferObject = useSigniantApp ? new Signiant.Mst.Upload() : new Signiant.Mst.NoSoftware.Upload();
   //set the default server
   transferObject.setServer(defaultServer);
   //the following methods are self explanatory
@@ -304,7 +304,7 @@ function cancelTransfer() {
 */
 function downloadFile(fileName) {
   //create a new download Object
-  var download = useTransferSoftware ? new Signiant.Mst.Download() : new Signiant.Mst.NoSoftware.Download();
+  var download = useSigniantApp ? new Signiant.Mst.Download() : new Signiant.Mst.NoSoftware.Download();
   //set the download server
   download.setServer(defaultServer);
   //set the apikey for downloading
