@@ -24,6 +24,9 @@
 //the global transfer object that is used for uploading
 var transferObject = null;
 
+// Set to false to use native HTTP for transfers; true to use Signiant App
+var useTransferSoftware = true;
+
 /**
  * Callback for failure call of Signiant.Mst.initialize()
  * 
@@ -33,9 +36,20 @@ var failureCallback = function () {
   /* Launch the Signiant installer widget into the 'mainContent' div. */
   var installWidget = new Signiant.Mst.SigAppInstallWidget('mainContent', {
     dismissInstallAppCallback: checkForSigniant.bind(self, 'false'), //called when the user clicks "I have the app" in the install widget
-    installAppCompleteCallback: initializeUploadObject //called when the app install is verified 
+    installAppCompleteCallback: initializeUploadObject, //called when the app install is verified
+    transferWithoutAppCallback: function () {
+      setUseTransferSoftware(false);
+      initializeUploadObject();
+    }
   });
   installWidget.showInstallerWindow(); 
+}
+
+/**
+ * Set the global useTransferSoftware flag.
+ */
+function setUseTransferSoftware(useSoftware) {
+    useTransferSoftware = useSoftware;
 }
 
 /**
@@ -57,15 +71,13 @@ function checkForSigniant(failQuick) {
   detectPlugin provides default functionality that is easier to implement.
   Signiant.Mst.initialize allows you to override what happens if the app is not loaded (failureCallback)
   */
-  detectPlugin({success:initializeUploadObject, error:appNotLoaded});
+  // detectPlugin({success:initializeUploadObject, error:appNotLoaded});
 
-  /*
   Signiant.Mst.initialize(initializeUploadObject, failureCallback, {
     timeout: 10000, // how long initialize will take to timeout, default: 1 second
     withAppTimeout: 20000, // how long initialize will take to timeout if we have detected cookie that signals the app is intalled, default: 5 seconds
     failPreemptivelyIfAppNotInstalled: failQuick // call error right away if cookie not present, default: true
   });
-  */
 }
 
 /**
@@ -87,7 +99,7 @@ function initializeUploadObject(){
   updateBucket(); 
 
   //create a new upload Object
-  transferObject = new Signiant.Mst.Upload();
+  transferObject = useTransferSoftware ? new Signiant.Mst.Upload() : new Signiant.Mst.NoSoftware.Upload();
   //set the default server
   transferObject.setServer(defaultServer);
   //the following methods are self explanatory
@@ -95,7 +107,8 @@ function initializeUploadObject(){
   transferObject.subscribeForBasicEvents(transferEvents);
   transferObject.subscribeForTransferProgress(transferProgressCallback);
   //setup the storage config options to upload to the right S3 bucket
-  if(configId){ 
+  if(configId){
+    transferObject.setSignature(globalSignature);
     transferObject.setStorageConfig('{"configId":"'+configId+'", "signature":"'+globalSignature+'"}');
   } else {
     transferObject.setStorageConfig('{"access-key":"'+amazonS3Key+'", "secret-key":"'+amazonS3Secret+'", "bucket":"'+amazonS3Bucket+'"}');
@@ -291,13 +304,18 @@ function cancelTransfer() {
 */
 function downloadFile(fileName) {
   //create a new download Object
-  var download = new Signiant.Mst.Download();
+  var download = useTransferSoftware ? new Signiant.Mst.Download() : new Signiant.Mst.NoSoftware.Download();
   //set the download server
   download.setServer(defaultServer);
   //set the apikey for downloading
   download.setApiKey(apiKey); //required
   //set the storage configuration
-  download.setStorageConfig('{"access-key":"'+amazonS3Key+'", "secret-key":"'+amazonS3Secret+'", "bucket":"'+amazonS3Bucket+'"}');
+  if(configId){
+      download.setSignature(globalSignature);
+      download.setStorageConfig('{"configId":"'+configId+'", "signature":"'+globalSignature+'"}');
+  } else {
+      download.setStorageConfig('{"access-key":"'+amazonS3Key+'", "secret-key":"'+amazonS3Secret+'", "bucket":"'+amazonS3Bucket+'"}');
+  }
   //set the probeLB (probe load balancer) to true (always true for Flight).
   download.setProbeLB(true);
   download.setFilePathHandlingMode(Signiant.Mst.Transfer.filePathModePath);

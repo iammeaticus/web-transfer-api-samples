@@ -38,16 +38,16 @@ THE SOFTWARE.
     ** Signiant Flight supports Microsoft Azure as well. 
     ** Check out azure.html for an example using Microsoft Azure.
   */
-  var apiKey = ""; //See above on how to get an API key.
+  var apiKey = ''; //See above on how to get an API key.
   var defaultServer = 'SET_THIS_TO_SERVER_CLOSEST_TO_STORAGE'; //See https://flight.support.signiant.com/customer/en/portal/articles/2173685-signiant-flight-server-locations for a list of server locations / names
 
-  /* TRIALS 
-  ** Trial users have to use keys and secrets. Customers can use temporary credentials using "configId" below. 
-  ** You can use our test credentials or you can replace it with your own S3 credentials if you like. 
+  /* TRIALS
+  ** Trial users have to use keys and secrets. Customers can use temporary credentials using "configId" below.
+  ** You can use our test credentials or you can replace it with your own S3 credentials if you like.
   */
   /* AMAZON SETTINGS
-  ** The following Amazon settings are set for Flight trials as well as for showing the files in Amazon (on the right hand column of this demo page). 
-  ** If the files in your bucket aren't showing up, then add the following CORS policy to it as described at http://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html 
+  ** The following Amazon settings are set for Flight trials as well as for showing the files in Amazon (on the right hand column of this demo page).
+  ** If the files in your bucket aren't showing up, then add the following CORS policy to it as described at http://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
   <CORSConfiguration><CORSRule><AllowedOrigin>*</AllowedOrigin><AllowedMethod>PUT</AllowedMethod><AllowedMethod>POST</AllowedMethod><AllowedMethod>GET</AllowedMethod><MaxAgeSeconds>3000</MaxAgeSeconds><AllowedHeader>*</AllowedHeader></CORSRule></CORSConfiguration>
   **
   */
@@ -57,31 +57,31 @@ THE SOFTWARE.
   var amazonS3Region = "us-east-1"; //set the region of the above bucket. Required only for listing files.
 
   /* CUSTOMERS
-  ** Link your cloud storage account at https://manage.signiant.com (Click on "Storage") to use 
-  ** temporary access credentials, instead of having to enter AWS/Azure keys, secrets, buckets etc... in this file. 
+  ** Link your cloud storage account at https://manage.signiant.com (Click on "Storage") to use
+  ** temporary access credentials, instead of having to enter AWS/Azure keys, secrets, buckets etc... in this file.
   */
   var configId = false; //GET THIS FROM https://manage.signiant.com (click on Storage).
   /* When you generate an API key from https://manage.signiant.com you generate a "secret" as well. You need to use that secret to generate a "signature" on your server. */
   var globalSignature = ""; //JSON Web Token (JWT) calculated from server (see signature_generators folder for examples). Please note that secrets are only good for 5 minutes. You will need to refres the generation every 5 minutes.
 
-  /* FILE DESTINATION 
+  /* FILE DESTINATION
   ** Change the folder path that the file will go into.
   */
   var destinationFolderPath = ''; //(optional) String: Path you want the file to go into (ie. folder1/folder2/)
   </script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>  
-  <script src='https://updates.signiant.com/javascript-api/2.6.0/transferapi.min.js' type='text/javascript'></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js" type="text/javascript"></script>    
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+  <script src='https://updates.signiant.com/javascript-api/2.6.3/transferapi.min.js' type='text/javascript'></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js" type="text/javascript"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/foggy/1.1.1/jquery.foggy.min.js" type="text/javascript"></script>
-  <script src="https://cdn.imnjb.me/libs/humanize/0.0.9/humanize.min.js" type="text/javascript"></script>
-  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.8.min.js" type="text/javascript"></script>	
-  <script src="amazon.js" type="text/javascript"></script>	  
+  <script src="https://cdn.jsdelivr.net/humanize/0.0.9/humanize.min.js" type="text/javascript"></script>
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.8.min.js" type="text/javascript"></script>
+  <script src="amazon.js" type="text/javascript"></script>
   <title>Signiant Flight Demo</title>
 
 	<script type="text/javascript">
     /**
      * Runs when the document is fully loaded.
-     * 
+     *
      * @return null
     */
 
@@ -89,17 +89,17 @@ THE SOFTWARE.
       //check ports and firewall settings
       checkPortsAndFirewall();
       //does the Signiant App exist?
-      checkForSigniant(true); 
+      checkForSigniant(true);
       //set the S3 region (required for S3)
-      AWS.config.region = amazonS3Region; 
+      AWS.config.region = amazonS3Region;
       AWS.config.update({accessKeyId: amazonS3Key, secretAccessKey: amazonS3Secret});
     });
   </script>
 </head>
 
 <body>
-	<div class="header"><div class="icon-logo" style="width: 141px; height: 20px;" ></div> <div id="headerBackground"></div></div>	
-    
+	<div class="header"><div class="icon-logo" style="width: 141px; height: 20px;" ></div> <div id="headerBackground"></div></div>
+
     <div id="mainContent" class="content">
       <div id="contentUpload">
         <div id="uploadFileChooser" class="icon-add" style="width: 85px; height: 62px;margin: auto;margin-top: 115px;"></div>
@@ -109,7 +109,7 @@ THE SOFTWARE.
       <div id="contentListing">
         <i id="refreshIcon" class="fa fa-refresh fa-spin" onclick="updateBucket()"></i>
 
-        <div id="objects">Loading files from cloud storage...</div> 
+        <div id="objects">Loading files from cloud storage...</div>
       </div>
 
       <div id="status">
@@ -118,15 +118,15 @@ THE SOFTWARE.
           <div>Port 49221 for transfers: <span id="signiant_49221_status"></span> (Note this isn't going to Signiant transfer servers, so may not be 100% accurate.)</div>
           <div>Signiant Messaging Service: <span id="signiant_messaging_status"></span></div>
         <div>
-          
+
         </div>
       </div>
     </div>
-    
+
     <div class="footer">
       &copy; 2015 Signiant.
     </div>
-  
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
  	<style>
 	body{margin:0;padding:0;font-family:sans-serif}
