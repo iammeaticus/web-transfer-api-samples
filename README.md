@@ -15,7 +15,7 @@ If you are transferring to local storage, you can get an API key from https://de
 If you are transferring to cloud storage you can request one from http://info.signiant.com/flight-Free-Trial_1.html
 
 # API Documentation
-The JavaScript API.pdf file contains the API documentation for the Web Transfer API. Version 2 is nearly 100% backwards compatible to v1. 
+Visit the <a href="https://developer.signiant.com">Signiant developer site</a> for up to date documentation about the Transfer API.
 
 ## Loading Transfer API
 
