@@ -23,7 +23,7 @@ Visit the <a href="https://developer.signiant.com">Signiant developer site</a> f
 
 Transfer API widgets are referenced by:
 
-`<link rel="stylesheet" href="https://updates.discovery.developer.signiant.com/javascript-api/2.6.6/widgets/transferProgress/mediashuttledownload.css">`
+`<link rel="stylesheet" href="https://updates.discovery.developer.signiant.com/javascript-api/2.6.6/widgets/download/mediashuttledownload.css">`
 
 `<link rel="stylesheet" href="https://updates.discovery.developer.signiant.com/javascript-api/2.6.6/widgets/transferProgress/mediashuttletransferprogress.css" >`
 
