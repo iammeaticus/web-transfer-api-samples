@@ -53,6 +53,9 @@ transferObject.setProperty('com.signiant.interactivetransfer.engine.api_key', 'Y
 that may be present in your code.
 
 # Changes
+### Transfer API v2.6.6 - February 24, 2017
+* Added the ability to enable manifest processing for transfers, allowing you to send manifests to a specified server.
+
 ### Transfer API v.2.6.5 - January 27, 2017
 * Implemented a fix for setting/detecting the SigniantAppInstalled cookie.
 
