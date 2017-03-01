@@ -19,21 +19,21 @@ Visit the <a href="https://developer.signiant.com">Signiant developer site</a> f
 
 ## Loading Transfer API
 
-`<script src="https://updates.signiant.com/javascript-api/2.6.3/transferapi.min.js" type="text/javascript"></script>`
+`<script type="text/javascript" src="https://updates.signiant.com/javascript-api/2.6.6/transferapi.min.js" ></script>`
 
 Transfer API widgets are referenced by:
 
-`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.6.3/widgets/download/mediashuttledownload.css"></link>`
+`<link rel="stylesheet" href="https://updates.discovery.developer.signiant.com/javascript-api/2.6.6/widgets/transferProgress/mediashuttledownload.css">`
 
-`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.6.3/widgets/transferProgress/mediashuttletransferprogress.css"></link>`
+`<link rel="stylesheet" href="https://updates.discovery.developer.signiant.com/javascript-api/2.6.6/widgets/transferProgress/mediashuttletransferprogress.css" >`
 
-`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.6.3/widgets/draganddrop/mediashuttlednd.css"></link>`
+`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.6.6/widgets/draganddrop/mediashuttlednd.css">`
 
-`<script src="https://updates.signiant.com/javascript-api/2.6.3/widgets/draganddrop/mediashuttlednd.js" type="text/javascript"></script>`
+`<script src="https://updates.signiant.com/javascript-api/2.6.6/widgets/draganddrop/mediashuttlednd.js" type="text/javascript"></script>`
 
-`<script src="https://updates.signiant.com/javascript-api/2.6.3/widgets/download/mediashuttledownload.js" type="text/javascript"></script>`
+`<script src="https://updates.discovery.developer.signiant.com/javascript-api/2.6.6/widgets/download/mediashuttledownload.js"></script>`
 
-`<script src="https://updates.signiant.com/javascript-api/2.6.3/widgets/transferProgress/mediashuttletransferprogress.js" type="text/javascript"></script>`
+`<script src="https://updates.discovery.developer.signiant.com/javascript-api/2.6.6/widgets/transferProgress/mediashuttletransferprogress.js"></script>`
 
 
 The API Key is now provided to the Transfer Object directly, rather than through the `<script>` tag. To specify an API key to use for a transfer call the following method on an Upload or Download object:
