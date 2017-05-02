@@ -59,7 +59,7 @@ that may be present in your code.
 ### Transfer API v2.6.6 - February 24, 2017
 * Added the ability to enable manifest processing for transfers, allowing you to send manifests to a specified server.
 
-See xxx for earlier Transfer API changes.
+See <a href="change.md">Transfer API Changes</a> for earlier Transfer API changes.
 
 # Security
 Signiant Web Transfer API customers using cloud storage have the ability to generate their own API keys and increase security through the use of signatures.
