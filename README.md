@@ -53,7 +53,7 @@ transferObject.setProperty('com.signiant.interactivetransfer.engine.api_key', 'Y
 that may be present in your code.
 
 # Changes
-Transfer API v2.7.0 - May 24, 2017
+### Transfer API v2.7.0 - May 24, 2017
 * Added support for a backup messaging service for communication between the Transfer API and the Signiant App. This update provides a dual communication strategy and ensures constant high availability. Note: you must be using the latest version of the <a href="https://shuttle.support.signiant.com/customer/en/portal/articles/2469753-download-signiant-app">Signiant App</a>.
 
 ### Transfer API v2.6.6 - February 24, 2017
