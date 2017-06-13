@@ -5,7 +5,7 @@ These samples to show how to integrate the Signiant Web Transfer API into a web 
 * Local storage on your network
 
 # Current Version
-The current version of the transfer API is 2.6.6.
+The current version of the transfer API is 2.7.1.
 
 # API Key
 You will require an API key to transfer files. 
@@ -19,21 +19,21 @@ Visit the <a href="https://developer.signiant.com">Signiant developer site</a> f
 
 ## Loading Transfer API
 
-`<script type="text/javascript" src="https://updates.signiant.com/javascript-api/2.6.6/transferapi.min.js" ></script>`
+`<script type="text/javascript" src="https://updates.signiant.com/javascript-api/2.7.1/transferapi.min.js" ></script>`
 
 Transfer API widgets are referenced by:
 
-`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.6.6/widgets/transferProgress/mediashuttledownload.css">`
+`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.7.1/widgets/transferProgress/mediashuttledownload.css">`
 
-`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.6.6/widgets/transferProgress/mediashuttletransferprogress.css" >`
+`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.7.1/widgets/transferProgress/mediashuttletransferprogress.css" >`
 
-`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.6.6/widgets/draganddrop/mediashuttlednd.css">`
+`<link rel="stylesheet" href="https://updates.signiant.com/javascript-api/2.7.1/widgets/draganddrop/mediashuttlednd.css">`
 
-`<script src="https://updates.signiant.com/javascript-api/2.6.6/widgets/draganddrop/mediashuttlednd.js" type="text/javascript"></script>`
+`<script src="https://updates.signiant.com/javascript-api/2.7.1/widgets/draganddrop/mediashuttlednd.js" type="text/javascript"></script>`
 
-`<script src="https://updates.signiant.com/javascript-api/2.6.6/widgets/download/mediashuttledownload.js"></script>`
+`<script src="https://updates.signiant.com/javascript-api/2.7.1/widgets/download/mediashuttledownload.js"></script>`
 
-`<script src="https://updates.signiant.com/javascript-api/2.6.6/widgets/transferProgress/mediashuttletransferprogress.js"></script>`
+`<script src="https://updates.signiant.com/javascript-api/2.7.1/widgets/transferProgress/mediashuttletransferprogress.js"></script>`
 
 
 The API Key is now provided to the Transfer Object directly, rather than through the `<script>` tag. To specify an API key to use for a transfer call the following method on an Upload or Download object:
@@ -53,11 +53,8 @@ transferObject.setProperty('com.signiant.interactivetransfer.engine.api_key', 'Y
 that may be present in your code.
 
 # Changes
-### Transfer API v2.7.0 - May 24, 2017
-* Added support for a backup messaging service for communication between the Transfer API and the Signiant App. This update provides a dual communication strategy and ensures constant high availability. Note: you must be using the latest version of the <a href="https://shuttle.support.signiant.com/customer/en/portal/articles/2469753-download-signiant-app">Signiant App</a>.
-
-### Transfer API v2.6.6 - February 24, 2017
-* Added the ability to enable manifest processing for transfers, allowing you to send manifests to a specified server.
+### Transfer API v2.7.1 - June 7th, 2017
+*	Signiant App Installer update
 
 See <a href="change.md">Transfer API Changes</a> for earlier Transfer API changes.
 
