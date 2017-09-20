@@ -5,7 +5,7 @@ These samples to show how to integrate the Signiant Web Transfer API into a web 
 * Local storage on your network
 
 # Current Version
-The current version of the transfer API is 2.7.1.
+The current version of the transfer API is 2.7.4.
 
 # API Key
 You will require an API key to transfer files.
