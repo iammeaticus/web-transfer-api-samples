@@ -54,7 +54,7 @@ that may be present in your code.
 
 # Changes
 ### Transfer API v2.7.4 - Monday September 25, 2017
-*	Signiant App Installer update
+*	Improved UX for transfer interruptions and recovery.
 
 See <a href="change.md">Transfer API Changes</a> for earlier Transfer API changes.
 
