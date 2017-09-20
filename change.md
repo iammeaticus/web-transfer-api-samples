@@ -1,6 +1,16 @@
 # Transfer API Changes
 The following is a list of changes made to the Transfer API:
 
+### Transfer API v2.7.3 - June 7th, 2017
+* Added support for encrypted messaging
+
+### Transfer API v2.7.2 - June 7th, 2017
+*	Update to the installer widget for no-client software
+
+### Transfer API v2.7.1 - June 7th, 2017
+*	Signiant App Installer update
+
+
 ### Transfer API v2.7.0 - May 24, 2017
 * Added support for a backup messaging service for communication between the Transfer API and the Signiant App. This update provides a dual communication strategy and ensures constant high availability. Note: you must be using the latest version of the <a href="https://shuttle.support.signiant.com/customer/en/portal/articles/2469753-download-signiant-app">Signiant App</a>.
 
@@ -31,10 +41,10 @@ The following is a list of changes made to the Transfer API:
 * Drag and drop is now supported with the drag and drop widget. Improved error handling when the browser cannot communicate with the app.
 
 ### TAPI v2.4 - December 2015
-* Improved the reliability of the Transfer API. 
+* Improved the reliability of the Transfer API.
 
 ### TAPI v2.3 - November 2015
-* The transfer API will now install the Mac version of the Signiant App on Mac operating systems. 
+* The transfer API will now install the Mac version of the Signiant App on Mac operating systems.
 
 ### TAPI v2.2 - October 22 2015
 * Drag and drop support now enabled for use with the drag and drop widget.
@@ -46,4 +56,3 @@ The following is a list of changes made to the Transfer API:
 
 # Deprecated Methods in Transfer API v2
 * isIEProtectedModeOn()
-

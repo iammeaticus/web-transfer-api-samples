@@ -1,5 +1,5 @@
 # Getting Started
-These samples to show how to integrate the Signiant Web Transfer API into a web application. The Signiant Web Transfer API supports transfers (upload and download) to / from: 
+These samples to show how to integrate the Signiant Web Transfer API into a web application. The Signiant Web Transfer API supports transfers (upload and download) to / from:
 * Amazon S3
 * Microsoft Azure
 * Local storage on your network
@@ -8,7 +8,7 @@ These samples to show how to integrate the Signiant Web Transfer API into a web 
 The current version of the transfer API is 2.7.1.
 
 # API Key
-You will require an API key to transfer files. 
+You will require an API key to transfer files.
 
 If you are transferring to local storage, you can get an API key from https://developer.mediashuttle.com
 
@@ -41,7 +41,7 @@ The API Key is now provided to the Transfer Object directly, rather than through
 ```javascript
 var upload = new Signiant.Mst.Upload();
 upload.setApiKey('abc123');
- 
+
 var download = new Signiant.Mst.Download();
 download.setApiKey('abc123');`
 ```
@@ -53,7 +53,7 @@ transferObject.setProperty('com.signiant.interactivetransfer.engine.api_key', 'Y
 that may be present in your code.
 
 # Changes
-### Transfer API v2.7.1 - June 7th, 2017
+### Transfer API v2.7.4 - Monday September 25, 2017
 *	Signiant App Installer update
 
 See <a href="change.md">Transfer API Changes</a> for earlier Transfer API changes.
@@ -61,6 +61,6 @@ See <a href="change.md">Transfer API Changes</a> for earlier Transfer API change
 # Security
 Signiant Web Transfer API customers using cloud storage have the ability to generate their own API keys and increase security through the use of signatures.
 
-Customers generate API keys and secrets using https://manage.signiant.com. 
+Customers generate API keys and secrets using https://manage.signiant.com.
 
 The secret and key are used to generate a signature that is used to secure requests to Web Transfer API using cloud storage. "singature_generators" contains sample code to show how to generate a signature using a variety of languages.
